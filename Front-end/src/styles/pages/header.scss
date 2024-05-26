@@ -1,0 +1,56 @@
+.menu{
+    background: #242424 !important;
+    .nav-menu{
+      color: $WHITE !important;
+
+      .logo{
+        width: 140px;
+      }
+    }
+    .container{
+      .navbar-toggler{
+        border: 2px solid $GRIS;
+        .navbar-toggler-icon {
+          background-image: none !important; 
+          color:white;
+        }
+      }
+    }
+
+    .menu-option {
+      position: relative;
+      display: inline-block;
+      padding: 8px; 
+      text-decoration: none;
+      color: $WHITE; 
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      transition: color 0.3s ease; 
+    }
+    
+    .menu-option::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0; 
+      height: 1px; 
+      background-color: $ROJO; 
+      transition: all 0.3s ease; 
+      transform: translateX(-50%); 
+    }
+    
+    .menu-option:hover{
+      color: $ROJO;
+    }
+
+    .menu-option:hover::after {
+      width: 100%;
+      left: 0;
+      transform: translateX(0%);
+    }
+
+    active {
+      color:$ROJO;
+    }
+  }

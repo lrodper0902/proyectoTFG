@@ -1,0 +1,28 @@
+.contain-carta{
+    @include flex-grid(flex);
+    background-color: #292C30;
+
+    .carta{
+      
+      text-align: center;
+      background: $WHITE;
+      width: 70%;
+      .title{
+        font-size: 45px;
+      }
+      p{
+        margin-bottom: 0px;
+      }
+      hr{
+        width: 80%;
+        justify-self: center;
+        border: 0.3px rgb(0, 0, 0) solid;
+        margin: 0 auto;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+      h2{
+        margin-top: 10px;
+      }
+    }
+  }

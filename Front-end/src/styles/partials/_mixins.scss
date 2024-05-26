@@ -1,0 +1,86 @@
+@import 'variables';
+
+@mixin imagen($height: 100%, $width: 100%, $back-size: cover){
+    height: $height;
+    width: $width;
+    background-size: $back-size;
+}
+
+@mixin grid-colum-row ($colum-repeat, $colum, $row-repeat, $row, $gap, $align:center, $justify:center){
+    display: grid;
+    grid-template-columns: repeat($colum-repeat, $colum);
+    grid-template-rows:  repeat($row-repeat, $row);
+    gap: $gap;
+    align-items: $align;
+    justify-content: $justify;
+}
+
+@mixin flex-grid ($display, $justify: center, $align: center){
+    display: $display;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@mixin background-image($url, $height){
+    background-image: url($url);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: $height;
+}
+
+@mixin boton(){
+    padding: 7px 40px;
+    border-radius: 3px;
+    background: $ROJO;
+    color: white;
+    border: 0px;
+    transition:all 300ms ease ;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+@mixin buton_hover(){
+    background: $ROJO-OSCURO;
+}
+
+@mixin boton2(){
+    width: 150px;
+    background: $GRIS;
+    color: rgb(255, 255, 255);
+    border-radius: 3px;
+    padding: 7px 20px;
+    border: 0px;
+    transition: all 300ms ease;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+@mixin boton2_hover(){
+    background: $ROJO;
+    border:0px;
+}
+
+@mixin title(){
+    font-size: 45px;
+    margin: 0 auto;
+    margin-top: 20px;
+    align-self: center;
+    // margin-bottom: 20px;
+}
+
+@mixin input(){
+    border: 0px;
+    border-bottom: 1px solid black;  
+    width: 85%;
+    margin-bottom: 30px;
+    background: rgb(238, 238, 238);
+}
+
+@mixin hr($WIDTH: 300px){
+    color: red !important;
+    border: 1px solid $ROJO !important;
+    opacity: 1;
+    width: $WIDTH;
+    margin-bottom: 30px !important;
+}

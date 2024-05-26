@@ -1,31 +1,35 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom'; // Importar Link
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+// import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 export const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
-    <header className='header'>
-      <nav className={`nav ${isOpen ? 'open' : ''}`}>
-        <div className="logo">
-          <h1>L</h1>
-        </div>
-        <div className='icon-responsive' onClick={toggleMenu}>
-          <p>-</p>
-        </div>        
-        <ul className='menu'>
-          <li><NavLink to="/inicio">Inicio</NavLink></li>
-          <li><NavLink to="/carta">Carta</NavLink></li>
-          <li><NavLink to="/vinos">Vinos</NavLink></li>
-          <li><NavLink to="/catering">Catering</NavLink></li>
-          <li><NavLink to="/reservas">Reservas</NavLink></li>
-        </ul>
-      </nav>
-    </header>
-  );
-};
+    <Navbar expand="lg" className="bg-body-tertiary menu">
+      <Container>
+        <Navbar.Brand className='nav-menu' as={Link} to="/">
+          <img className='logo' src='/7monjas/7monjas.png'/>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav">
+          {/* <i className="fa fa-bars"></i> Ícono de Font Awesome */}
+          {/* <FontAwesomeIcon icon={faBars} /> */}
+      </Navbar.Toggle>
 
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
+            <Nav.Link as={Link} className='menu-option' to="/inicio">Inicio</Nav.Link>
+            <Nav.Link as={Link} className='menu-option' to="/carta">Carta</Nav.Link>
+            <Nav.Link as={Link} className='menu-option' to="/vinos">Vinos</Nav.Link>
+            <Nav.Link as={Link} className='menu-option' to="/catering">Catering</Nav.Link>
+            <Nav.Link as={Link} className='menu-option' to="/reservas">Reservas</Nav.Link>
+            <Nav.Link as={Link} className='menu-option' to="/login">Login</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
+}
+
+export default Header;

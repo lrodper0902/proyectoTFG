@@ -5,9 +5,11 @@ import { Carta } from '../components/pages/Carta';
 import { Vinos } from '../components/pages/Vinos';
 import { Catering } from '../components/pages/Catering';
 import { Reserva } from '../components/pages/Reserva';
-import { Login } from '../components/pages/Login';
 import { Header } from '../components/layout/Header';
-
+import { Footer } from '../components/layout/Footer';
+import IniciarSesion from '../components/pages/IniciarSesion';
+import Registrarse from '../components/pages/Registrarse';
+import Login from '../components/pages/Login';
 
 export const Routing = () => {
   return (
@@ -23,6 +25,8 @@ export const Routing = () => {
           <Route path='/catering' element={<Catering />} />
           <Route path='/reservas' element={<Reserva />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/iniciarsesion' element={<IniciarSesion />} />
+          <Route path='/registrarse' element={<Registrarse />} />
 
           <Route path='/*' element={
             <>
@@ -32,6 +36,8 @@ export const Routing = () => {
           } >
           </Route>
       </Routes>
+
+      <Footer />
     </BrowserRouter>
   )
 }

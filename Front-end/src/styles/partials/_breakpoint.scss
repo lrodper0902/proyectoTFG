@@ -1,0 +1,29 @@
+@mixin tamaño-grande{
+    @media screen and (max-width:1400px){
+        @content;
+    }
+}
+
+@mixin grande{
+    @media screen and (max-width:1230px){
+        @content;
+    }
+}
+
+@mixin tamaño-medio{
+    @media screen and (max-width:900px){
+        @content;
+    }
+}
+
+@mixin tamaño-tablet{
+    @media screen and (max-width:795px){
+        @content;
+    }
+}
+
+@mixin tamaño-pequeño{
+    @media screen and (max-width:670px){
+        @content;
+    }
+}

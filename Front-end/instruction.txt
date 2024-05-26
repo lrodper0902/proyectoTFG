@@ -1,0 +1,4 @@
+Para inicializar el front-end escribimos en la terminal dentro de:
+cd Front-end npm run dev
+
+Para inicializar back-end:
