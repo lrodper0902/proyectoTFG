@@ -21,6 +21,13 @@
     align-items: $align;
 }
 
+@mixin flex($justy, $align){
+    display: flex;
+    justify-content: $justy;
+    align-items: $align;
+    flex-flow: row wrap;
+}
+
 @mixin background-image($url, $height){
     background-image: url($url);
     background-position: center;
@@ -37,6 +44,17 @@
     border: 0px;
     transition:all 300ms ease ;
     font-size: 16px;
+    text-transform: uppercase;
+}
+
+@mixin boton-grande(){
+    padding: 12px 44px;
+    border-radius: 3px;
+    background: $ROJO;
+    color: white;
+    border: 0px;
+    transition:all 300ms ease ;
+    font-size: 20px;
     text-transform: uppercase;
 }
 
@@ -84,3 +102,72 @@
     width: $WIDTH;
     margin-bottom: 30px !important;
 }
+
+@mixin tabla-program(){
+    @include tamaño-pequeño{
+        display: none;
+    }
+    margin: 0 auto;
+    width: 70%;
+    border:1px solid rgb(211, 211, 211);
+    th{
+        width: 80px;
+        text-align: center;
+        text-transform: uppercase;
+        background: $ROJO;
+        padding: 10px 0px;
+        color: white;
+    }
+    td{
+        padding: 10px 0px;
+        text-align: center;
+    }
+    tr{
+        cursor: pointer;
+    }
+
+    tr:nth-child(even){
+        background: rgb(221, 221, 221);
+    }
+    @include tamaño-medio{
+        width: 100%;
+        font-size: 14px;
+    }
+}
+
+@mixin tabla-movil(){
+    visibility: hidden;
+    @include tamaño-pequeño{
+        border: none;
+        visibility: visible !important;
+        font-size: 12.5px;
+        .movil-consultas{
+            border-radius: 10px !important;
+            width: 100%;
+            tr{
+                cursor: pointer;
+                td {
+                    padding-left: 10px !important;
+                    padding: 10px 0px;
+                    text-align: left;
+                    border-bottom: 1px solid rgb(187, 187, 187);
+                }
+            }
+            
+        }
+    }
+}
+
+@mixin boton-programa{
+    background: transparent;
+    border: 0px;
+    margin-left: 10px;
+}
+
+@mixin input-style($width){
+    border:0px;
+    border-bottom:1px solid gray;
+    width: $width;
+    background: transparent;
+}
+

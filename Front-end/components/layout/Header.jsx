@@ -7,7 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 
 export const Header = () => {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary menu">
+    <Navbar expand="lg" className="bg-body-tertiary menu " fixed='top'>
       <Container>
         <Navbar.Brand className='nav-menu' as={Link} to="/">
           <img className='logo' src='/7monjas/7monjas.png'/>

@@ -48,14 +48,14 @@ export const Inicio = () => {
       </div>
 
       <div className="content-indice">
-      <div className='text'>
+      <div className='text carta-text'>
           <h3 className='title'>Carta</h3>
           <hr />
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit fuga laudantium minus veritatis deserunt nihil repudiandae voluptatem enim mollitia non atque iure sequi nisi, libero voluptate illo ab facilis. Sed incidunt, numquam accusantium provident tenetur esse mollitia, at minus tempora impedit rerum aut nam eligendi reprehenderit id quos eum recusandae, deserunt hic tempore rem. Deserunt, numquam. Magnam beatae modi accusamus repellat dolores architecto non placeat, ullam autem? Dolorum consectetur perspiciatis, placeat dignissimos modi error minus? Nesciunt iusto assumenda rem asperiores consectetur esse unde architecto ducimus! Vel expedita excepturi odio accusamus!</p>
           <Link to="/carta" className="link-button">Ver la Carta</Link>
         </div>
 
-        <div className="fade-carousel">
+        <div className="fade-carousel img1">
           {images2.map((image, index) => (
             <div
               key={index}
@@ -67,7 +67,7 @@ export const Inicio = () => {
           ))}
         </div>
 
-        <div className="fade-carousel">
+        <div className="fade-carousel img2">
           {images.map((image, index) => (
             <div
               key={index}
@@ -79,7 +79,7 @@ export const Inicio = () => {
           ))}
         </div>
      
-        <div className='text'>
+        <div className='text productos-text'>
           <h3>Expresión y elegancia en 7 Monjas</h3>
           <hr />
           <p>Seleccionamos en origen los productos y materias primas con los que se elaborarán los platos de nuestra carta:</p>
@@ -89,10 +89,16 @@ export const Inicio = () => {
 
 
       </div> 
-
-      <div className='imagen-footer'>
-        <img src="/7monjas/footer.jpg" width='100%' alt="" />
+      <div className='reservar-boton-inicio'>
+        <div>
+          <h2>Reserva con nosotros</h2>
+          <Link to='/reservas' className='boton-reservar'>Reservar</Link>          
+        </div>
       </div>
+
+      {/* <div className='imagen-footer'>
+        <img src="/7monjas/footer.jpg" width='100%' alt="" />
+      </div> */}
     </>
   );
 };

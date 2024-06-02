@@ -9,28 +9,28 @@ export const MyCarousel = () => {
     <Carousel.Item>
       <img
         className="d-block w-100"
-        src="\salas\ccomedor1.jpg"
+        src="\salas\sala1.jpg"
         alt="First slide"
       />
     </Carousel.Item>
     <Carousel.Item>
       <img
         className="d-block w-100"
-        src="\salas\centrada.jpg"
+        src="\salas\sala2.jpg"
         alt="Second slide"
       />
     </Carousel.Item>
     <Carousel.Item>
       <img
         className="d-block w-100"
-        src="\salas\cterraza.jpeg"
+        src="\salas\comedor.jpeg"
         alt="Third slide"
       />
     </Carousel.Item>
     <Carousel.Item>
       <img
         className="d-block w-100"
-        src="\salas\ccomedor3.jpeg"
+        src="\salas\cterraza.jpeg"
         alt="Third slide"
       />
     </Carousel.Item>

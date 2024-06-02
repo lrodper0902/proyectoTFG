@@ -1,10 +1,9 @@
-@import '../partials/mixins';
-
 .contain-login{
     // height: 100px;
+    margin-top: 91px;
     @include flex-grid(flex);
     flex-flow: wrap row;
-    @include background-image('/salas/bebidas.jpg',100vh);
+    // @include background-image('/salas/bebidas.jpg',100vh);
     opacity: 1.2;
     z-index: 0;
 
@@ -16,15 +15,79 @@
         border-radius: 14px;
 
         .imagen-login{
-            // height: 200px;  
+ 
             flex:1 50%;
             border-radius: 14px 0px 0px 14px;
             @include background-image('/salas/bebidas.jpg',80vh);
-            
-            // @include background-image('/salas/decoracion2copia.jpeg',90vh);
+            @include tamaño-medio(){
+                display: none;
+            }
         }
+
         .form-login{
             flex:1 50%;
+            @include flex-grid(flex, center, center);
+            border: 1px rgb(181, 146, 101) solid;
+            border-radius: 0px 14px 14px 0px;
+            @include tamaño-medio(){
+                flex: 100%;
+                padding-bottom: 100px;
+            }
+
+            hr{
+                @include hr(150px);
+                margin: 0 auto;
+                margin-bottom: 30px !important;
+            }
+            form{
+                height: 80%;
+
+                h2{
+                    text-align: center;
+                    flex: 100%;
+                    margin-top: 50px;
+                }
+    
+                input{
+                    padding: 10px;
+                    margin: 10px 0px 20px 0px;
+                    width: 100%;
+                }
+                .passw{
+                    width: 87%;
+                    border-top: $border;
+                    border-bottom: $border;
+                    border-left:  $border;
+                }
+                .icon-password{
+                    padding: 10px;
+                    margin-left: -6px !important;
+                    background: white;
+                    color: black;
+                    border-top: $border;
+                    border-bottom: $border;
+                    border-right: $border;
+                    border-radius: 0px 2px 2px 0px;
+                    border-left: 0px;
+                }
+                .icon-password:hover{
+                    background: white;
+                }
+                a{
+                    font-size: 12.5px;
+                }
+                button{
+                    margin-top: 20px;
+                    @include boton();
+                }
+                button:hover{
+                    @include buton_hover();
+                }
+            }
+            .registrarse{
+                height: 100% !important;
+            }
+
         }
     }
 }

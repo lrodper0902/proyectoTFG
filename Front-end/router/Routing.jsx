@@ -7,16 +7,19 @@ import { Catering } from '../components/pages/Catering';
 import { Reserva } from '../components/pages/Reserva';
 import { Header } from '../components/layout/Header';
 import { Footer } from '../components/layout/Footer';
-import IniciarSesion from '../components/pages/IniciarSesion';
 import Registrarse from '../components/pages/Registrarse';
 import Login from '../components/pages/Login';
+import Indexapp from '../components/programa/Indexapp';
+import Usuario from '../components/programa/Usuarios';
+import Crearreserva from '../components/programa/Crearreserva';
+import Reservas from '../components/programa/Reservas';
+
 
 export const Routing = () => {
   return (
     <BrowserRouter>
       
       <Header />
-
       <Routes>
           <Route index path='/' element={<Inicio />} />
           <Route path='/inicio' element={<Inicio />} />
@@ -25,9 +28,14 @@ export const Routing = () => {
           <Route path='/catering' element={<Catering />} />
           <Route path='/reservas' element={<Reserva />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/iniciarsesion' element={<IniciarSesion />} />
+          <Route path='/iniciarsesion' element={<Login />} />
           <Route path='/registrarse' element={<Registrarse />} />
-
+ 
+          <Route path='/app/index' element={<Indexapp />} />
+          <Route path='/app/reservas' element={<Reservas />} />
+          <Route path='/app/usuarios' element={<Usuario />} />
+          <Route path='/app/crear' element={<Crearreserva />} />
+        
           <Route path='/*' element={
             <>
               <h1>Esta página no existe</h1>
@@ -35,9 +43,11 @@ export const Routing = () => {
             </>
           } >
           </Route>
+
       </Routes>
 
       <Footer />
+
     </BrowserRouter>
   )
 }

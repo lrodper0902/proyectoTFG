@@ -1,9 +1,9 @@
-@import '../partials/mixins';
-@import '../partials/variables';
-
 .contain-catering{
-        padding: 0px 50px;
+        padding: 100px 50px 0px 50px;
         margin-bottom: 100px;
+        @include movil(){
+            padding: 65px 10px 20px 10px;
+        }    
          
     .cabecera-catering{
         margin-top: 40px;
@@ -21,15 +21,29 @@
             }
             h4{
                 color:white;
-                margin-bottom: 20px
+                margin-bottom: 20px;
+                text-align: center;
             }
             button{
-                @include boton();
+                @include boton-grande();
             }
             button:hover{
                 @include buton_hover();
             }
+            @include tamaño-pequeño3(){
+                h3,h4,hr{
+                    display: none;
+                }
+            }
         }
+
+        @include movil(){
+
+            button{
+                font-size: 14px !important;
+                padding: 10px 15px !important;
+            }
+        }    
     }
 
     .descripcion-catering{
@@ -44,14 +58,30 @@
             border:1px solid $GRIS;
             // color: $GRIS;
         }
+        @include tamaño-pequeño2{
+            font-size: 12px;
+            margin: 0 auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            hr{
+                margin-top:20px;
+            }
+        }
     }
 
     .galeria-catering{
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
         grid-template-rows: auto auto;
         gap: 50px; 
-        margin: 100px;
+        margin: 100px 200px;
+        @include tamaño-grande(){
+            margin: 80px 20px;
+        }
+        @include tamaño-tablet2(){
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
 
         img{
             width: 100%;
@@ -97,7 +127,42 @@
                 width: 85%;
                 margin-bottom: 30px;
             }
+        }
+    }
+    @include tamaño-tablet{
+        input,textarea{
+            width: 400px !important;
+        }
+    }
+    @include tamaño-pequeño(){
+        .reservar-catering{
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));        
+            font-size: 12px;
+            width: 100%;
+            margin: 0px;
 
+            input,textarea{
+                width: 400px;
+            }
+        }
+    }
+    @include tamaño-pequeño2{
+        .reservar-catering{
+            input,textarea{
+                width: 300px !important;
+            }     
+        }
+    }
+    @include movil{    
+        .reservar-catering{
+            input,textarea{
+                width: 50%!important;
+                padding-top:10px ;
+                margin-bottom: 10px !important;
+            }     
+            label{
+                margin: 10px !important;
+            }
         }
     }
 }

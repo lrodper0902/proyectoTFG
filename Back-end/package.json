@@ -1,0 +1,38 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "API REST con NODE.JS, MySQL, JWT, Express ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lrodper0902/proyectoTFG.git"
+  },
+  "keywords": [
+    "TFG"
+  ],
+  "author": "Laura Rodriguez Perales",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lrodper0902/proyectoTFG/issues"
+  },
+  "homepage": "https://github.com/lrodper0902/proyectoTFG#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jwt-simple": "^0.5.6",
+    "moment": "^2.30.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.9.7",
+    "react-bootstrap-sidebar-menu": "^2.0.3",
+    "validator": "^13.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.1"
+  }
+}

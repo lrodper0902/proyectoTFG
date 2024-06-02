@@ -10,8 +10,20 @@
     }
 }
 
+@mixin tamaño-grande2{
+    @media screen and (max-width:1164px){
+        @content;
+    }
+}
+
 @mixin tamaño-medio{
     @media screen and (max-width:900px){
+        @content;
+    }
+}
+
+@mixin tamaño-tablet2{
+    @media screen and (max-width:810px){
         @content;
     }
 }
@@ -22,8 +34,26 @@
     }
 }
 
+@mixin tamaño-pequeño3{
+    @media screen and (max-width:692px){
+        @content;
+    }
+}
+
 @mixin tamaño-pequeño{
-    @media screen and (max-width:670px){
+    @media screen and (max-width:670px){ //Inde usarlo tambien
+        @content;
+    }
+}
+
+@mixin tamaño-pequeño2{
+    @media screen and (max-width:560px){
+        @content;
+    }
+}
+
+@mixin movil{
+    @media screen and (max-width:450px){
         @content;
     }
 }
