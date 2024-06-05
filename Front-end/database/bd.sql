@@ -7,28 +7,25 @@ CREATE TABLE Cliente (
     nombre VARCHAR(50),
     apellido VARCHAR(50),
     telefono VARCHAR(20),
-    email VARCHAR(100) UNIQUE DEFAULT NULL,
-    password VARCHAR(255) DEFAULT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255),
     login BOOLEAN DEFAULT FALSE, 
     banear BOOLEAN DEFAULT FALSE,
-    fechaRegistro DATE DEFAULT NULL, 
-    horaRegistro TIME DEFAULT NULL
+    fechaRegistro DATE, 
+    horaRegistro TIME
 );
 
 CREATE TABLE Sala (
     idSala INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50),
-    capacidad INT
+    nombre VARCHAR(50) UNIQUE NOT NULL,
+    capacidadMaxima INT
 );
 
 CREATE TABLE Mesa (
     idMesa INT AUTO_INCREMENT PRIMARY KEY,
     numeroMesa INT,
-    capacidad INT, 
     estado ENUM('Disponible', 'Ocupada') DEFAULT 'Disponible',
-    idCliente INT,
     idSala INT,
-    FOREIGN KEY (idCliente) REFERENCES Cliente(idCliente),
     FOREIGN KEY (idSala) REFERENCES Sala(idSala)
 );
 

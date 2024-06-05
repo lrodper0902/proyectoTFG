@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import { Global } from '../../helpers/Global';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFaceDizzy } from '@fortawesome/free-solid-svg-icons';
+import { faFaceDizzy, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const Reservas = () => {
     const [reservas, setReservas] = useState([]);
@@ -77,6 +77,24 @@ const Reservas = () => {
         }
     }
 
+    const eliminarReserva = async(id) => {
+        try {
+            const url = `${Global.url}/eliminarreservas/${id}`;
+            const confirmacion = confirm('¿Estás seguro de que deseas eliminar esta reserva?');
+
+            if(confirmacion){
+                const response = await fetch(url, { method: 'DELETE' });
+                if (!response.ok) {
+                    throw new Error("No se ha obtenido respuesta de la API clientes");
+                }
+                alert("Reserva eliminada correctamente")
+            }
+
+        } catch (error) {
+            console.error("Error al obtener el nombre del cliente", error);
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const fechaSeleccionada = e.target.date.value;
@@ -137,20 +155,27 @@ const Reservas = () => {
                                     <thead>
                                         <tr>
                                             <th>Nombre</th>
+                                            <th>Fecha</th>
                                             <th>Hora</th>
                                             <th>Anticipo</th>
                                             <th>Comensales</th>
                                             <th>Mesa</th>
+                                            <th>Eliminar</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {reservas.map(reserva => (
                                             <tr key={reserva.cliente_id}>
                                                 <td>{reserva.nombre}</td>
+                                                <td>{devolverFecha(reserva.fecha)}</td>
                                                 <td>{devolverHora(reserva.hora)}h</td>
                                                 <td>{reserva.precioPagado}€</td>
                                                 <td>{reserva.comensales}</td>
                                                 <td>{reserva.mesa_id}</td>
+                                                <td><button className='btn-eliminar' onClick={() => eliminarReserva(reserva.idReserva)}>
+                                                        <FontAwesomeIcon  icon={faTrash}/>
+                                                    </button>
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -166,6 +191,10 @@ const Reservas = () => {
                                                   <td>{reserva.precioPagado}€</td>
                                                   <td>{reserva.comensales} pers.</td>
                                                   <td>Mesa: {reserva.mesa_id}</td>
+                                                  <td><button onClick={() => eliminarReserva(reserva.idReserva)}>
+                                                        <FontAwesomeIcon icon={faTrash}/>
+                                                    </button>
+                                                  </td>
                                               </tr>
                                           ))}
                                       </tbody>

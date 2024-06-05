@@ -7,6 +7,8 @@ router.get('/listareservas', ReservaController.getAllReservas);
 router.post('/crearreservas', ReservaController.createReserva);
 router.put('/actualizarreservas/:id', ReservaController.updateReserva);
 router.delete('/eliminarreservas/:id', ReservaController.deleteReserva);
+router.post('/reservaspuntual', ReservaController.createReservaPuntual);
+
 
 //Export 
 module.exports = router;

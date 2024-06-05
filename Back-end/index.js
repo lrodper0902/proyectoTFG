@@ -20,10 +20,13 @@ app.use(express.urlencoded({extended:true}));
 const ClienteRoutes  = require("./routes/cliente");
 const ReservaRoutes = require("./routes/reserva");
 const MesaRoutes = require("./routes/mesa");
+const SalasRoutes = require("./routes/salas");
 
 app.use("/api", ClienteRoutes);
 app.use("/api", ReservaRoutes);
 app.use("/api", MesaRoutes);
+app.use("/api", SalasRoutes);
+
 
 // Poner servidor a escuchar peticiones http
 app.listen(PORT, () => {

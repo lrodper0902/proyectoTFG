@@ -5,9 +5,9 @@ const MesaController = require("../controller/mesa");
 
 router.get('/mesa', MesaController.getAllMesas);
 router.get('/mesa/:id', MesaController.getMesa);
-router.post('/mesa', MesaController.createMesa);
-router.put('/mesa/:id', MesaController.updateMesa);
-router.delete('/mesa/:id', MesaController.deleteMesa);
+router.get('/mesaporsala/:idSala', MesaController.getMesasPorSala);
+// router.put('/mesa/:id', MesaController.updateMesa);
+// router.delete('/mesa/:id', MesaController.deleteMesa);
 
 //Export 
 module.exports = router;

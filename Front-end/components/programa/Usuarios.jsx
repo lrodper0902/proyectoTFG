@@ -105,7 +105,7 @@ const Usuarios = () => {
                   </thead>
                   <tbody>
                       {clientesFiltrados.map(cliente => 
-                        <tr onClick={() => openModal(cliente)} key={cliente.idCliente}>
+                        <tr className='cursor'  onClick={() => openModal(cliente)} key={cliente.idCliente}>
                           <td>{cliente.nombre}</td>
                           <td>{cliente.apellido}</td>
                           <td>{cliente.telefono}</td>
@@ -120,7 +120,7 @@ const Usuarios = () => {
                   <table className="movil-consultas">
                       <tbody>
                           {clientes.map(cliente => (
-                              <tr  onClick={() => openModal(cliente)} key={cliente.cliente_id}>
+                              <tr className='cursor' onClick={() => openModal(cliente)} key={cliente.cliente_id}>
                                 <td><strong>{cliente.nombre}</strong></td>
                                 <td>{cliente.apellido}</td>
                                 <td>{cliente.telefono}</td>
@@ -155,7 +155,8 @@ const Usuarios = () => {
                     <input type="text" id="telefono" value={selectedCliente.telefono} onChange={(e) => handleInputChange('telefono', e.target.value)} /><br />
   
                     <label htmlFor="email"><strong> Email:</strong></label><br />
-                    <input type="text" id="email" value={selectedCliente.email} onChange={(e) => handleInputChange('email', e.target.value)} /><br />
+                    {/* <input type="text" id="email" value= onChange={(e) => handleInputChange('email', e.target.value)} /><br /> */}
+                    <p>{selectedCliente.email}</p>
   
                     <label htmlFor="horaRegistro"><strong>Hora de registro:</strong></label><br />
                     <p>{selectedCliente.horaRegistro}</p>  

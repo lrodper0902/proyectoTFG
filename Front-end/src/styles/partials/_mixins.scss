@@ -121,8 +121,12 @@
     td{
         padding: 10px 0px;
         text-align: center;
+        .btn-eliminar{
+
+            border: 0px;
+        }
     }
-    tr{
+    tr.cursor{
         cursor: pointer;
     }
 
