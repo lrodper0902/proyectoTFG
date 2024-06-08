@@ -29,11 +29,25 @@ const Reservas = () => {
             console.error("Error al obtener los registros", error);
         }
     };
+
+    const todosRegistros = async() => {
+        const listaRegistros = await obtenerRegistros();
+        console.log(listaRegistros)
+        const lista = await Promise.all(
+            listaRegistros.map(async reserva => ({
+                ...reserva,
+                nombreCliente: await obtenerNombreCliente(reserva.cliente_id),
+                nombreSala: await obtenerNombreSala(reserva.sala_id)
+            }))
+        );
+        setReservas(lista);
+    }
     
     const obtenerNombreCliente = async (cliente_id) => {
         const response = await fetch(`${Global.url}/clienteporid/${cliente_id}`);
         const data = await response.json();
-        return data.nombre;
+
+        return data[0].nombre;
     };
     
     const obtenerNombreSala = async (sala_id) => {
@@ -62,7 +76,6 @@ const Reservas = () => {
         }
     };
     
-
     const mostrarRegistrosPorTiempo = async (tipoTiempo, fecha) => {
         try {
             const url = `${Global.url}/listareservas`;
@@ -157,7 +170,7 @@ const Reservas = () => {
                                 </select>
                             </form>
                             <div className='boton-lista-reservas'>
-                                <button onClick={obtenerRegistros}>Todas las reservas</button>
+                                <button onClick={todosRegistros}>Todas las reservas</button>
                             </div>
                         </article>
 

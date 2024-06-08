@@ -180,17 +180,18 @@ class ReservaController {
                 const [result] = await conn.query(query, [nombre, apellido, telefono, email]);
                 console.log(result)
                 clienteId = result.insertId;
-            }
-    
+
+            
             // Insertar la reserva en la base de datos
             query = 'INSERT INTO Reserva (fecha, hora, cliente_id, sala_id, comensales, tiempo, estado) VALUES (?, ?, ?, ?, ?, ?, "Confirmado")';
-            const [result] = await conn.query(query, [fecha, hora, clienteId, salaId, comensales, tiempo]);
-            console.log(result)
-            if (result.affectedRows === 1) {
+            const [result2] = await conn.query(query, [fecha, hora, clienteId, salaId, comensales, tiempo]);
+            console.log(result2)
+            if (result2.affectedRows === 1) {
                 res.status(201).json({ message: 'Reserva creada correctamente' });
             } else {
                 throw new Error('No se pudo insertar la reserva');
             }
+           } 
         } catch (error) {
             console.error('Error al crear la reserva:', error);
             res.status(500).json({ message: 'Error al crear la reserva', error: error.message });
