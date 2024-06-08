@@ -2,28 +2,31 @@ import { Global } from '../../helpers/Global';
 import React, { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFaceDizzy, faCheck, faXmark, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
+import { faFaceDizzy, faCheck, faXmark, faMagnifyingGlass, faAngleLeft, faAngleRight, faBan, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const Usuarios = () => {
   const [clientes, setClientes] = useState([]);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedCliente, setSelectedCliente] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
-  useEffect(() =>{
+  useEffect(() => {
     obtenerUsuarios();
-  },[]);
+  }, []);
 
   const obtenerUsuarios = async () => {
     try {
       const url = Global.url + 'todosclientes';
-      const response = await fetch(url, {method: 'GET'});
+      const response = await fetch(url, { method: 'GET' });
       if (!response.ok) {
         throw new Error("Error al conectar a la base de datos");
       }
       const data = await response.json();
-      setClientes(data);
-      setClientesFiltrados(data);  // Corregido para setear correctamente los clientes filtrados
+      const formattedData = data.map(cliente => ({ ...cliente, localBaneado: cliente.baneado }));
+      setClientes(formattedData);
+      setClientesFiltrados(formattedData);
     } catch (error) {
       console.error("No se ha obtenido la lista de usuarios", error);
     }
@@ -41,39 +44,60 @@ const Usuarios = () => {
 
   const handleChange = (e) => {
     const buscar = e.target.value.toLowerCase();
+    const filtrados = clientes.filter(b =>
+      b.nombre.toLowerCase().includes(buscar) ||
+      b.apellido.toLowerCase().includes(buscar) ||
+      b.telefono.includes(buscar)
+    );
+    setClientesFiltrados(filtrados);
+  };
 
-    if (!buscar.trim()) {
-      setClientesFiltrados(clientes);
-    } else {
-      const filtrados = clientes.filter(b =>
-        b.nombre.toLowerCase().includes(buscar) || b.apellido.toLowerCase().includes(buscar)
-      );
-      setClientesFiltrados(filtrados);
+
+
+  const handleToggleBaneado = async(cliente) => {
+    console.log(cliente)
+
+    try {
+      const url = `${Global.url}actualizarcliente/${cliente.idCliente}`;
+      const data = { ...cliente, 
+                  baneado: cliente.banear };
+
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      console.log(response)
+
+      if (!response.ok){
+        throw new Error('Error al actualizar el cliente');
+      }       
+      alert("Usuario actualizado");
+      closeModal();
+      obtenerUsuarios(); // Refetch the users to reflect the changes
+    } catch (error) {
+      console.error('Error al actualizar el cliente', error);
     }
   };
 
-  const handleUpdate  = () =>{
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const baneadeo = (baneado) => {
+    return baneado ? <p>Baneado</p> : <p>No baneado</p>
 
   }
-
-  const handleInputChange = () =>{
-    
-  }
-
-
-  const registrado = (login) =>{
-    if(login === 1){
-      return <FontAwesomeIcon icon={faCheck} />;
-    }else{
-      return <FontAwesomeIcon icon={faXmark} />
-    }
-
-  }
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = clientesFiltrados.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <>
       <div className='contain-clientes-app'>
-        <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial'}}>
+        <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}>
           <nav>
             <Sidebar />
           </nav>
@@ -83,16 +107,23 @@ const Usuarios = () => {
               <hr />
             </header>
             <section className='buscar-usuarios'>
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-                <label>Buscar cliente:</label>
-                <input type="search" name="buscar" id="buscar" onChange={handleChange}/>
-                {/* <button type="submit" className="button" aria-label="Buscar">
-                    <i className='fas fa-search'></i>
-                </button> */}
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+              <label>Buscar cliente:</label>
+              <input type="search" name="buscar" id="buscar" onChange={handleChange} />
+              {clientesFiltrados.length > 0 && (
+                <div className="paginacion">
+                  <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                    <FontAwesomeIcon icon={faAngleLeft} />
+                  </button>
+                  <button onClick={() => handlePageChange(currentPage + 1)} disabled={indexOfLastItem >= clientesFiltrados.length}>
+                    <FontAwesomeIcon icon={faAngleRight} />
+                  </button>
+                </div>
+              )}
             </section>
             <section className='section'>
-              {clientesFiltrados.length > 0 ? (
-              <>
+              {currentItems.length > 0 ? (
+                <>
                 <table className='tamaño-grande'>
                   <thead>
                     <tr>
@@ -104,45 +135,65 @@ const Usuarios = () => {
                     </tr>
                   </thead>
                   <tbody>
-                      {clientesFiltrados.map(cliente => 
-                        <tr className='cursor'  onClick={() => openModal(cliente)} key={cliente.idCliente}>
-                          <td>{cliente.nombre}</td>
-                          <td>{cliente.apellido}</td>
-                          <td>{cliente.telefono}</td>
-                          <td>{registrado(cliente.login)}</td>
-                          <td>{cliente.login}</td>
-                        </tr>                      
-                      )}
+                    {currentItems.map(cliente => (
+                      <tr key={cliente.idCliente}>
+                        <td onClick={() => openModal(cliente)}>{cliente.nombre}</td>
+                        <td onClick={() => openModal(cliente)}>{cliente.apellido}</td>
+                        <td onClick={() => openModal(cliente)}>{cliente.telefono}</td>
+                        <td onClick={() => openModal(cliente)}>{cliente.login ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faXmark} />}</td>
+                        <td>
+                          <button
+                            className='boton-banner'
+                            onClick={() => handleToggleBaneado(cliente)}
+                            style={{ backgroundColor: cliente.banear ? '#242424' : '#a43737', color: 'white' }}
+                          >
+                            {cliente.banear === 1 ? <FontAwesomeIcon icon={faBan} /> : <FontAwesomeIcon icon={faUser} />}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
-                  </table>
-                  {/* Tamaño para movil */}
-                  <div className='movil'>
+                </table> 
+              {/* Movil   */}
+              <div className='movil'>
                   <table className="movil-consultas">
                       <tbody>
-                          {clientes.map(cliente => (
-                              <tr className='cursor' onClick={() => openModal(cliente)} key={cliente.cliente_id}>
-                                <td><strong>{cliente.nombre}</strong></td>
-                                <td>{cliente.apellido}</td>
-                                <td>{cliente.telefono}</td>
-                                <td>{cliente.login}</td>
-                                <td>{cliente.login}</td>
-                              </tr>
-                          ))}
+                        {currentItems.map(cliente => (
+                        <tr key={cliente.idCliente}>
+                          <td onClick={() => openModal(cliente)}>{cliente.nombre}</td>
+                          <td onClick={() => openModal(cliente)}>{cliente.apellido}</td>
+                          <td onClick={() => openModal(cliente)}>{cliente.telefono}</td>
+                          <td onClick={() => openModal(cliente)}>{cliente.login ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faXmark} />}</td>
+                          <td>
+                            <button
+                              className='boton-banner'
+                              onClick={() => handleToggleBaneado(cliente)}
+                              style={{ backgroundColor: cliente.localBaneado ? '#242424' : '#a43737', color: 'white' }}
+                            >
+                              {cliente.localBaneado ? <FontAwesomeIcon icon={faBan} /> : <FontAwesomeIcon icon={faUser} />}
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
                       </tbody>
                   </table>
               </div>          
-            </>
-              ): (
-              <div className="no-datos">
+                </>
+                
+                
+                  
+
+              ) : (
+                <div className="no-datos">
                   <h3>No hay datos para mostrar</h3>
                   <FontAwesomeIcon icon={faFaceDizzy} />
-              </div>
+                </div>
               )}
-            
             </section>
           </div>
         </div>
       </div>
+   
       <div className={modalIsOpen ? 'modal open' : 'modal'}>
         {selectedCliente && (
           <div className="modal-content">
@@ -150,29 +201,30 @@ const Usuarios = () => {
               <span className="close" onClick={closeModal}><FontAwesomeIcon icon={faXmark} /></span>
             </div>
            <h4>{selectedCliente.nombre} {selectedCliente.apellido}</h4>
-                <form onSubmit={handleUpdate} className="form-editar-cliente">
-                    <label htmlFor="telefono"><strong> Teléfono:</strong></label><br />
-                    <input type="text" id="telefono" value={selectedCliente.telefono} onChange={(e) => handleInputChange('telefono', e.target.value)} /><br />
-  
-                    <label htmlFor="email"><strong> Email:</strong></label><br />
-                    {/* <input type="text" id="email" value= onChange={(e) => handleInputChange('email', e.target.value)} /><br /> */}
-                    <p>{selectedCliente.email}</p>
-  
-                    <label htmlFor="horaRegistro"><strong>Hora de registro:</strong></label><br />
-                    <p>{selectedCliente.horaRegistro}</p>  
-  
-                    <label htmlFor="horaRegistro"><strong>Hora de registro:</strong></label><br />
-                    <p>{selectedCliente.horaRegistro}</p>  
+              <label htmlFor="telefono"><strong> Teléfono:</strong></label><br />
+              <p>{selectedCliente.telefono}</p>
 
-                    <label htmlFor="horaRegistro"><strong>Banear usuario</strong></label><br />
+              <label htmlFor="email"><strong> Email:</strong></label><br />
+              {/* <input type="text" id="email" value= onChange={(e) => handleInputChange('email', e.target.value)} /><br /> */}
+              <p>{selectedCliente.email}</p>
 
-                    <button type="submit" className="button-update">Actualizar</button>
-                </form>
+              <label htmlFor="horaRegistro"><strong>Hora de registro:</strong></label><br />
+              <p>{selectedCliente.horaRegistro}</p>  
+
+              <label htmlFor="horaRegistro"><strong>Hora de registro:</strong></label><br />
+              <p>{selectedCliente.horaRegistro}</p>  
+
+              <label htmlFor="horaRegistro"><strong>Banear usuario: </strong></label>
+              <p>{baneadeo(selectedCliente.banear)}</p>
+
+              {/* <button type="submit" className="button-update">Actualizar</button> */}
+              {/* <input type="submit" value="Actualizar"  className="button-update"/> */}
           </div>
         )}
       </div>
     </>
   )
 }
+
 
 export default Usuarios;

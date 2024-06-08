@@ -3,6 +3,7 @@ import Sidebar from './Sidebar';
 import { Global } from '../../helpers/Global';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceDizzy, faTrash } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
 
 const Reservas = () => {
     const [reservas, setReservas] = useState([]);
@@ -22,7 +23,13 @@ const Reservas = () => {
                 throw new Error("No se ha obtenido respuesta de la API");
             }
             let datos = await response.json();
-            datos = datos.filter(reserva => reserva.fecha && reserva.fecha.split('T')[0] === fechaBuscada);
+            console.log(datos)
+            // datos = datos.filter(reserva => reserva.fecha && reserva.fecha.split('T')[0] === fechaBuscada);
+            const fechaFormateada = moment(fechaBuscada).format('YYYY-MM-DD');
+
+            // Filtrar las reservas por la fecha formateada
+            datos = datos.filter(reserva => reserva.fecha && moment(reserva.fecha).format('YYYY-MM-DD') === fechaFormateada);
+        
             const reservasConNombres = await Promise.all(datos.map(reserva => agregarNombreAReserva(reserva)));
             setReservas(reservasConNombres);
         } catch (error) {
@@ -40,28 +47,28 @@ const Reservas = () => {
     }
 
     const mostrarRegistrosPorTiempo = async (tipoTiempo, fecha) => {
-      try {
-        console.log(tipoTiempo)
-          const url = `${Global.url}/listareservas`;
-          const response = await fetch(url, { method: 'GET' });
-          if (!response.ok) {
-              throw new Error("No se ha conectado a la API");
-          }
-          const datos = await response.json();
-          if(tipoTiempo === "todos"){
-            const todosReguistros = datos.filter(reserva => devolverFecha(reserva.fecha) === fecha);
-            const reservasConNombres = await Promise.all(todosReguistros.map(reserva => agregarNombreAReserva(reserva)));
+        try {
+            const url = `${Global.url}/listareservas`;
+            const response = await fetch(url, { method: 'GET' });
+            if (!response.ok) {
+                throw new Error("No se ha conectado a la API");
+            }
+            const datos = await response.json();
+            
+            let reservasFiltradas;
+            if (tipoTiempo === "todos") {
+            reservasFiltradas = datos.filter(reserva => moment(reserva.fecha).isSame(fecha, 'day'));
+            } else {
+            reservasFiltradas = datos.filter(reserva => reserva.tiempo === tipoTiempo && moment(reserva.fecha).isSame(fecha, 'day'));
+            }
+            
+            const reservasConNombres = await Promise.all(reservasFiltradas.map(reserva => agregarNombreAReserva(reserva)));
+            setReservas(reservasConNombres);
+        } catch (error) {
+            console.error("Error al filtrar los registros por tiempo", error.message);
+        }
+    }
 
-            return setReservas(reservasConNombres);
-          }
-
-          const reservasFiltradas = datos.filter(reserva => reserva.tiempo === tipoTiempo && devolverFecha(reserva.fecha) === fecha);
-          const reservasConNombres = await Promise.all(reservasFiltradas.map(reserva => agregarNombreAReserva(reserva)));
-          setReservas(reservasConNombres);
-      } catch (error) {
-          console.error("Error al filtrar los registros por tiempo", error.message);
-      }
-  }  
 
     const obtenerNombreCliente = async (id) => {
         try {
@@ -88,8 +95,9 @@ const Reservas = () => {
                     throw new Error("No se ha obtenido respuesta de la API clientes");
                 }
                 alert("Reserva eliminada correctamente")
+                
             }
-
+            handleSubmit(); //No funcinoa :(
         } catch (error) {
             console.error("Error al obtener el nombre del cliente", error);
         }
@@ -107,7 +115,7 @@ const Reservas = () => {
     }
 
     const devolverFecha = (formatofecha) => {
-        return formatofecha.split('T')[0];   //0000-00-00
+        return moment(formatofecha).format('YYYY-MM-DD');         
     }
   
     const devolverHora = (formatoHora) => {
@@ -128,7 +136,7 @@ const Reservas = () => {
                         <hr />
                     </header>
 
-                    <section className='section'>
+                    <section className='section-reservas'>
                         <article className='article-fecha'>
                             <form onSubmit={handleSubmit} className='fecha'>
                                 <label>Fecha</label>
@@ -141,7 +149,7 @@ const Reservas = () => {
                                 <label htmlFor="comida-cena">Seleccionar:&nbsp;</label> 
                                 <select name="comida-cena" id="comida-cena" onChange={(e) => mostrarRegistrosPorTiempo(e.target.value, tituloFecha)}>
                                     <option value="todos">Todos</option>
-                                    <option value="Mediod├¡a">Comida</option>
+                                    <option value="Mediodia">Comida</option>
                                     <option value="Noche">Cena</option>
                                 </select>
                             </form>

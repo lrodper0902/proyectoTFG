@@ -11,7 +11,7 @@ import Registrarse from '../components/pages/Registrarse';
 import Login from '../components/pages/Login';
 import Indexapp from '../components/programa/Indexapp';
 import Usuario from '../components/programa/Usuarios';
-import Crearreserva from '../components/programa/Crearreserva';
+import Crearreserva2 from '../components/programa/Crearreserva2';
 import Reservas from '../components/programa/Reservas';
 
 
@@ -34,7 +34,7 @@ export const Routing = () => {
           <Route path='/app/index' element={<Indexapp />} />
           <Route path='/app/reservas' element={<Reservas />} />
           <Route path='/app/usuarios' element={<Usuario />} />
-          <Route path='/app/crear' element={<Crearreserva />} />
+          <Route path='/app/crear' element={<Crearreserva2 />} />
         
           <Route path='/*' element={
             <>

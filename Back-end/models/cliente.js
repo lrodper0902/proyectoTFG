@@ -29,8 +29,6 @@ class Cliente {
         return result;
     }
     
-    
-
     static async login(email, password) {
         const conn = await getConnection();
         const user = await conn.query('SELECT * FROM Cliente WHERE email = ?', [email]);
@@ -52,10 +50,18 @@ class Cliente {
     }
 
     static async update(id, data) {
-        const conn = await getConnection();
-        const { nombre, apellido, telefono, email, password, login } = data;
-        const result = await conn.query('UPDATE Cliente SET nombre = ?, apellido = ?, telefono = ?, email = ?, password = ?, login = ? WHERE idCliente = ?', [nombre, apellido, telefono, email, password, login, id]);
-        return result;
+       
+        try {
+            const conn = await getConnection();
+            const { banear } = data;
+            console.log(banear)
+    
+            const [result, fileds] = await conn.query('UPDATE Cliente SET banear = ? WHERE idCliente = ?', [banear, id]);
+            console.log("result"+result)
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
 
     static async delete(id) {

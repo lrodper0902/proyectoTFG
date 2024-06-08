@@ -81,8 +81,13 @@ const createCliente = async (req, res) => {
 };
 
 const updateCliente = async (req, res) => {
+    console.log("Ha entrado a la base de datos de cliente")
     try {
+        console.log("Estrar en el try")
         const result = await Cliente.update(req.params.id, req.body);
+        console.log("linea 87")
+        console.log(result.affectedRows )
+
         if (result.affectedRows > 0) {
             res.send({ message: 'Cliente actualizado' });
         } else {

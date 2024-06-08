@@ -30,8 +30,20 @@
         }
       
         .buscar-usuarios{
+            display: flex;
+            justify-content: space-around;
             padding: 50px 60px;
             margin:0px 150px;
+
+            .paginacion{
+
+                button{
+                    border: 0px;
+                    font-size: 25px;
+                    margin: 0px 10px;
+                }
+            }
+
             label{
                 margin-left: 10px;
             }
@@ -62,9 +74,7 @@
                 @include tabla-movil();
             } 
         }
-    }
-
-    
+    }    
 }
 
 .contain-reservas-app{
@@ -90,7 +100,7 @@
                 text-transform: uppercase;
             }
         }
-        .section{
+        .section-reservas{
             display: grid;
             margin: 90px 60px 60px 60px;
             
@@ -171,7 +181,7 @@
       
         .main {
             width: 100%;
-            max-width: 800px; // Ancho máximo para el formulario
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
     
@@ -188,6 +198,10 @@
         
                 label {
                     display: block;
+                    // margin-bottom: 20px !important;
+                }
+                input{
+                    margin-top: 20px;
                 }
         
                 input,
@@ -195,7 +209,7 @@
                     @include input()
                 };
         
-                input[type='submit'] {
+                .btn-reserva {
                     @include boton();
                     cursor: pointer;
                     margin-top: 20px;
@@ -205,8 +219,6 @@
     }
 }
 }
-
-
 
 // Modal
 .modal {
@@ -226,23 +238,18 @@
     background-color: #fefefe;
     margin: 15% auto;
     padding: 10px 40px;
-    // border: 1px solid #b8b8b8;
     width: 50%;
     min-width: 300px;
     max-width: 350px;
     font-size: 14px;
     padding-bottom: 30px;
-    // @include tamaño-medio(){
-    //     width: 320px;
-    //     font-size: 14px;
-    // }
 
     h4{
         margin-bottom: 10px;
         text-align: center;
         font-size: 25px;
-        
     }
+
     form{
       label{
         margin: 10px;
@@ -268,6 +275,7 @@
       button:hover{
         @include buton_hover();
       }
+ 
     }
      .close {
       width: 10px;

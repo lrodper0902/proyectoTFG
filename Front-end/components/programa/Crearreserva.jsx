@@ -10,6 +10,7 @@ const Crearreserva = () => {
   const [selectedComensales, setSelectedComensales] = useState('');
   const [selectedHora, setSelectedHora] = useState('');
   const [tiempo, setTiempo] =useState('');
+  const [capacidadDisponible, setCapacidadDisponible] = useState(null);
 
   useEffect(() => {
     obtenerListaSalas();
@@ -33,27 +34,11 @@ const Crearreserva = () => {
   }
 
   const handleSalaChange = (e) => {
-
     const salaId = e.target.value;
     setSelectedSala(salaId);
     obtenerMesasPorSala(salaId);
   };
   
-  const obtenerMesasPorSala = async (salaId) => {
-    console.log(salaId)
-    try {
-      const response = await fetch(Global.url + `mesaporsala/${salaId}`);
-      
-      if (!response.ok) {
-        throw new Error('La solicitud falló con estado ' + response.status);
-      }
-      const data = await response.json();
-      const mesasDisponibles = data.filter(p => p.estado === "Disponible");
-      setMesas(mesasDisponibles);
-    } catch (error) {
-      console.error('Error al obtener los datos:', error);
-    }
-  };
 
   const handleMesaChange = (e) => {
     setSelectedMesa(e.target.value);
@@ -68,21 +53,41 @@ const Crearreserva = () => {
       setTiempo("Noche");
     }
   }
+
+  const verificarCapacidad = async () => {
+    if (!selectedSala || !fecha || !hora) return;
+
+    const url = `/api/disponibilidad?salaId=${selectedSala}&fecha=${fecha}&hora=${hora}`;
+    const response = await fetch(url);
+    if(response.ok){
+        const { capacidad_disponible } = await response.json();
+        setCapacidadDisponible(capacidad_disponible);
+    } else {
+        console.error("Error al verificar la disponibilidad");
+        setCapacidadDisponible(null); // En caso de error, resetea la capacidad disponible
+    }
+  };
   
   const handleSubmit = async(e) => {
     e.preventDefault();
 
+    if(comensales > capacidadDisponible){
+      alert("No hay espacio suficiente");
+      return;
+    }
+
+
     // Crea un objeto con los datos de la reserva
     const target = e.target;
     const reservaData = {
-      fecha:target.fecha.value,
-      hora:selectedHora,
       nombre:target.name.value,
       apellido:target.apellidos.value,
       telefono:target.tel.value,
+      fecha:target.fecha.value,
+      hora:selectedHora,
       comensales:selectedComensales,
       tiempo:tiempo,
-      mesaId: selectedMesa, //id de la mesa
+
     };
     console.log(reservaData)
   
@@ -103,8 +108,20 @@ const Crearreserva = () => {
       console.log(response)
   
       console.log('Reserva creada correctamente');
-      alert("SE ha creado la reseerva")
-      // Aquí podrías mostrar un mensaje de éxito o redireccionar a otra página
+      alert("Se ha creado la reserva")
+
+
+      //Actualizamos los valores
+      target.fecha.value = '';
+      setSelectedComensales('');
+      setSelectedHora('');
+      target.name.value = '';
+      target.apellidos.value = '';
+      target.tel.value = '';
+      setTiempo('');
+      setSelectedMesa('');
+      setSelectedSala('')
+
     } catch (error) {
       console.error('Error al crear la reserva:', error);
       // Aquí podrías mostrar un mensaje de error al usuario
@@ -129,24 +146,28 @@ const Crearreserva = () => {
                 <div className="form1">
                   <label htmlFor="">Nombre</label>
                   <br />
-                  <input type="text" name="name" id="" />
+                  <input type="text" required name="name" id="" />
                   <br />
-                  <label htmlFor="">Teléfono</label>
+                  <label htmlFor="" required>Teléfono</label>
                   <br />
-                  <input type="tel" name="tel" id="" />
+                  <input type="tel" name="tel" id="" required />
                   <br />
                   <label htmlFor="">Elegir sala</label>
                   <br />
-                  <select name="sala" id="" onChange={handleSalaChange} value={selectedSala}>
+                  <select required name="sala" id="" onChange={handleSalaChange} value={selectedSala}>
+                    <option defaultChecked>Seleccionar salon</option>
                     {salas.map((sala, index) => (
-                      <option key={index} value={sala.idSala}>
-                        {sala.nombre}
-                      </option>
+                      <>
+                        <option key={index} value={sala.idSala}>
+                          {sala.nombre}
+                        </option>
+                      </>
                     ))}
                   </select>
                   <br />
                   <label htmlFor="">Seleccione hora</label><br />
-                  <select name="hora" id="" onChange={handleChangeHora}>
+                  <select required name="hora" id="" onChange={handleChangeHora}>
+                    <option value=''>Seleccionar hora</option>
                     <option value="14:00:00">14:00</option>
                     <option value="20:00:00">20:00</option>
                   </select>
@@ -156,11 +177,12 @@ const Crearreserva = () => {
                 <div className="form2">
                   <label htmlFor="">Apellidos</label>
                   <br />
-                  <input type="text" name="apellidos" id="" />
+                  <input required type="text" name="apellidos" id="" />
                   <br />
                   <label htmlFor="">Comensales</label>
                   <br />
-                  <select name="comensales" id="" onChange={handleComensales}>
+                  <select required name="comensales" id="" onChange={handleComensales}>
+                    <option value="" defaultChecked>Selecciona nº comensales</option>
                     <option value="2">2 personas</option>
                     <option value="3">3 personas</option>
                     <option value="4">4 personas</option>
@@ -174,9 +196,10 @@ const Crearreserva = () => {
                     <option value="12">12 personas</option>
                   </select>
                   <br />
-                  <label htmlFor="">Seleccionar mesa</label>
+                  {/* <label htmlFor="">Seleccionar mesa</label>
                   <br />
-                  <select name="mesa" id="" value={selectedSala} onChange={handleMesaChange}>
+                  <select required name="mesa" id="" value={selectedSala} onChange={handleMesaChange}>
+                    <option >Seleccionar mesa</option>
                     {mesas.length === 0 ? (
                       <option value="">Completo</option>
                     ) : (
@@ -186,9 +209,10 @@ const Crearreserva = () => {
                         </option>
                       ))
                     )}
-                  </select>
+                  </select> */}
                   <label htmlFor="">Seleccione dia</label><br />
-                  <input type="date" name="fecha" id="" />
+                  <input required type="date" name="fecha" id="" /><br /><br /><br /><br />
+
                   <input type="submit" value="Guardar" />
                 </div>
               </form>
