@@ -22,55 +22,6 @@ const getCliente = async (req, res) => {
     }
 };
 
-// const registerUser = async (req, res) => {
-//     try {
-//         const result = await Cliente.register(req.body);
-//         res.status(201).send({ message: 'Usuario registrado exitosamente', id: result.insertId });
-//     } catch (error) {
-//         if (error.code === 'ER_DUP_ENTRY') {
-//             res.status(409).send({ message: 'El email ya está en uso.' });
-//         } else {
-//             res.status(500).send({ message: 'Error al registrar el usuario', error: error.message });
-//         }
-//     }
-// };
-
-// const login = async(req, res) => {
-//     const { email, password } = req.body;
-
-//     // Primero, verifica si el email y la contraseña han sido proporcionados
-//     if (!email || !password) {
-//         return res.status(400).send({
-//             success: false,
-//             message: 'Email y contraseña son requeridos'
-//         });
-//     }
-
-//     try {
-//         const loginResult = await Cliente.login(email, password);
-
-//         // Después, verifica si el resultado del login es exitoso
-//         if (loginResult) {
-//             res.status(200).json({
-//                 success: true,
-//                 message: 'Autenticación exitosa',
-//                 token: loginResult.token
-//             });
-//         } else {
-//             res.status(401).json({
-//                 success: false,
-//                 message: 'Correo electrónico o contraseña incorrectos'
-//             });
-//         }
-//     } catch (error) {
-//         res.status(500).json({
-//             success: false,
-//             message: 'Error interno del servidor',
-//             error: error.message
-//         });
-//     }
-// };
-
 const createCliente = async (req, res) => {
     try {
         const result = await Cliente.create(req.body);

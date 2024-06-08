@@ -10,7 +10,7 @@ const Usuarios = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedCliente, setSelectedCliente] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(8);
 
   useEffect(() => {
     obtenerUsuarios();
@@ -51,8 +51,6 @@ const Usuarios = () => {
     );
     setClientesFiltrados(filtrados);
   };
-
-
 
   const handleToggleBaneado = async(cliente) => {
     console.log(cliente)
@@ -107,10 +105,13 @@ const Usuarios = () => {
               <hr />
             </header>
             <section className='buscar-usuarios'>
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-              <label>Buscar cliente:</label>
-              <input type="search" name="buscar" id="buscar" onChange={handleChange} />
-              {clientesFiltrados.length > 0 && (
+              <div className='buscador'>
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                <label>Buscar cliente:</label>
+                <input type="search" name="buscar" id="buscar" onChange={handleChange} />                
+              </div>
+
+              {clientesFiltrados.length > 8 && (
                 <div className="paginacion">
                   <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
                     <FontAwesomeIcon icon={faAngleLeft} />
@@ -179,10 +180,6 @@ const Usuarios = () => {
                   </table>
               </div>          
                 </>
-                
-                
-                  
-
               ) : (
                 <div className="no-datos">
                   <h3>No hay datos para mostrar</h3>
@@ -205,7 +202,6 @@ const Usuarios = () => {
               <p>{selectedCliente.telefono}</p>
 
               <label htmlFor="email"><strong> Email:</strong></label><br />
-              {/* <input type="text" id="email" value= onChange={(e) => handleInputChange('email', e.target.value)} /><br /> */}
               <p>{selectedCliente.email}</p>
 
               <label htmlFor="horaRegistro"><strong>Hora de registro:</strong></label><br />

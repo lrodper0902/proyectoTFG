@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import { Global } from '../../helpers/Global';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFaceDizzy, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faFaceDizzy, faTrash, faAngleLeft, faAngleRight, } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 
 const Reservas = () => {
     const [reservas, setReservas] = useState([]);
     const [tituloFecha, setTituloFecha] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(8);
+1
+    const [tiempo, setTiempo] = useState(['Todos','Mediodia', 'Noche']);
 
     useEffect(() => {
         const fechaActual = new Date().toISOString().split('T')[0];  
@@ -23,7 +27,7 @@ const Reservas = () => {
                 throw new Error("No se ha obtenido respuesta de la API");
             }
             let datos = await response.json();
-            console.log(datos);
+
             return datos;
         } catch (error) {
             console.error("Error al obtener los registros", error);
@@ -40,7 +44,9 @@ const Reservas = () => {
                 nombreSala: await obtenerNombreSala(reserva.sala_id)
             }))
         );
+        setTiempo(['Todas']);
         setReservas(lista);
+        setTituloFecha('Todas las fechas');
     }
     
     const obtenerNombreCliente = async (cliente_id) => {
@@ -69,7 +75,7 @@ const Reservas = () => {
                     nombreSala: await obtenerNombreSala(reserva.sala_id)
                 }))
             );
-    
+            setTiempo(['Todos','Mediodia', 'Noche']);
             setReservas(reservasConDatos);
         } catch (error) {
             console.error("Error al procesar las reservas por fecha", error);
@@ -84,21 +90,30 @@ const Reservas = () => {
                 throw new Error("No se ha conectado a la API");
             }
             const datos = await response.json();
+            console.log(fecha)
             
             let reservasFiltradas;
-            if (tipoTiempo === "todos") {
+            if (tipoTiempo === "Todos") {
                 reservasFiltradas = datos.filter(reserva => moment(reserva.fecha).isSame(fecha, 'day'));
             } else {
                 reservasFiltradas = datos.filter(reserva => reserva.tiempo === tipoTiempo && moment(reserva.fecha).isSame(fecha, 'day'));
             }
             
             // const reservasConNombres = await Promise.all(reservasFiltradas.map(reserva => agregarNombreAReserva(reserva)));
-            setReservas(reservasFiltradas);
+            setTituloFecha(fecha);
+            const lista = await Promise.all(
+                reservasFiltradas.map(async reserva => ({
+                    ...reserva,
+                    nombreCliente: await obtenerNombreCliente(reserva.cliente_id),
+                    nombreSala: await obtenerNombreSala(reserva.sala_id)
+                }))
+            );            
+            setReservas(lista);
+
         } catch (error) {
             console.error("Error al filtrar los registros por tiempo", error.message);
         }
     }
-
 
     const eliminarReserva = async(id) => {
         try {
@@ -133,11 +148,17 @@ const Reservas = () => {
     const devolverFecha = (formatofecha) => {
         return moment(formatofecha).format('YYYY-MM-DD');         
     }
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
   
     const devolverHora = (formatoHora) => {
         const partes = formatoHora.split(':');
         return partes[0] + ':' + partes[1];
     }
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = reservas.slice(indexOfFirstItem, indexOfLastItem);
 
     return (
         <div className='contain-reservas-app'>
@@ -164,19 +185,32 @@ const Reservas = () => {
                             <form className='comida-cena'>
                                 <label htmlFor="comida-cena">Seleccionar:&nbsp;</label> 
                                 <select name="comida-cena" id="comida-cena" onChange={(e) => mostrarRegistrosPorTiempo(e.target.value, tituloFecha)}>
-                                    <option value="todos">Todos</option>
+                                    {/* <option value="todos">Todos</option>
                                     <option value="Mediodia">Comida</option>
-                                    <option value="Noche">Cena</option>
+                                    <option value="Noche">Cena</option> */}
+                                    {tiempo.map(t => (
+                                        <option value={t}>{t}</option>
+                                    ))}
                                 </select>
                             </form>
                             <div className='boton-lista-reservas'>
                                 <button onClick={todosRegistros}>Todas las reservas</button>
                             </div>
+                            {reservas.length > 8 && (
+                            <div className="paginacion">
+                                <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                                    <FontAwesomeIcon icon={faAngleLeft} />
+                                </button>
+                                <button onClick={() => handlePageChange(currentPage + 1)} disabled={indexOfLastItem >= reservas.length}>
+                                    <FontAwesomeIcon icon={faAngleRight} />
+                                </button>
+                            </div>
+                            )}
                         </article>
 
                         <main className='registros-reservas'>
                             <h3>{tituloFecha}</h3>
-                            {reservas.length > 0 ? (
+                            {currentItems.length > 0 ? (
                               <>
                                  <table className='tamaño-grande'>
                                     <thead>
@@ -192,12 +226,12 @@ const Reservas = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {reservas.map(reserva => (
+                                        {currentItems.map(reserva => (
                                             <tr key={reserva.cliente_id}>
                                                 <td>{reserva.nombreCliente}</td>
                                                 <td>{devolverFecha(reserva.fecha)}</td>
                                                 <td>{devolverHora(reserva.hora)}h</td>
-                                                <td>{reserva.precioPagado}€</td>
+                                                <td>{reserva.precioPagado < 0 ? <p>0</p> : reserva.precioPagado}€</td>
                                                 <td>{reserva.comensales}</td>
                                                 <td>{reserva.nombreSala}</td>
                                                 <td>{reserva.mesa_id}</td>
