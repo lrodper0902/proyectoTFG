@@ -15,7 +15,7 @@ const Reservas = () => {
         setTituloFecha(fechaActual);
     }, []);
 
-    const obtenerRegistros = async (fechaBuscada) => {
+    const obtenerRegistros = async () => {
         try {
             const url = `${Global.url}/listareservas`;
             const response = await fetch(url, { method: 'GET' });
@@ -23,48 +23,45 @@ const Reservas = () => {
                 throw new Error("No se ha obtenido respuesta de la API");
             }
             let datos = await response.json();
-            console.log(datos)
-
-            const fechaFormateada = moment(fechaBuscada).format('YYYY-MM-DD');
-
-            // Filtrar las reservas por la fecha formateada
-            const reservasConDatos = await Promise.all(
-                datos.filter(reserva => moment(reserva.fecha).format('YYYY-MM-DD') === fechaFormateada)
-                    .map(async reserva => ({
-                        ...reserva,
-                        nombreCliente: await obtenerNombreCliente(reserva.cliente_id),
-                        nombreSala: await obtenerNombreSala(reserva.sala_id)
-                    }))
-            );
-            setReservas(reservasConDatos);
+            console.log(datos);
+            return datos;
         } catch (error) {
-            console.error("Error al obtener los registros por fecha", error);
-        }
-    }
-
-    const porFecha = () => {
-        const reservasFecha = obtener
-    }
-
-    const agregarNombreAReserva = async (reserva) => {
-        try {
-            return { ...reserva, nombre: await obtenerNombreCliente(reserva.cliente_id) };
-        } catch (error) {
-            console.error("Error al obtener el nombre del cliente:", error);
-            return { ...reserva, nombre: 'Desconocido' };
-        }
-    }
-
-    const obtenerNombreSala = async (sala_id) => {
-        try {
-            const response = await fetch(`${Global.url}/obtenersala/${sala_id}`);
-            const sala = await response.json();
-            return sala.nombre;
-        } catch (error) {
-            console.error("Error al obtener el nombre de la sala", error);
-            return 'Nombre no disponible';
+            console.error("Error al obtener los registros", error);
         }
     };
+    
+    const obtenerNombreCliente = async (cliente_id) => {
+        const response = await fetch(`${Global.url}/clienteporid/${cliente_id}`);
+        const data = await response.json();
+        return data.nombre;
+    };
+    
+    const obtenerNombreSala = async (sala_id) => {
+        const response = await fetch(`${Global.url}/obtenersala/${sala_id}`);
+        const data = await response.json();
+        return data.nombre;
+    };
+    
+    const porFecha = async (fechaBuscada) => {
+        try {
+            const reservas = await obtenerRegistros(); // Asegurarse de que esta promesa se resuelva.
+            const fechaFormateada = moment(fechaBuscada).format('YYYY-MM-DD');
+    
+            const reservasConDatos = await Promise.all(
+                reservas.filter(reserva => moment(reserva.fecha).format('YYYY-MM-DD') === fechaFormateada)
+                .map(async reserva => ({
+                    ...reserva,
+                    nombreCliente: await obtenerNombreCliente(reserva.cliente_id),
+                    nombreSala: await obtenerNombreSala(reserva.sala_id)
+                }))
+            );
+    
+            setReservas(reservasConDatos);
+        } catch (error) {
+            console.error("Error al procesar las reservas por fecha", error);
+        }
+    };
+    
 
     const mostrarRegistrosPorTiempo = async (tipoTiempo, fecha) => {
         try {
@@ -82,27 +79,13 @@ const Reservas = () => {
                 reservasFiltradas = datos.filter(reserva => reserva.tiempo === tipoTiempo && moment(reserva.fecha).isSame(fecha, 'day'));
             }
             
-            const reservasConNombres = await Promise.all(reservasFiltradas.map(reserva => agregarNombreAReserva(reserva)));
-            setReservas(reservasConNombres);
+            // const reservasConNombres = await Promise.all(reservasFiltradas.map(reserva => agregarNombreAReserva(reserva)));
+            setReservas(reservasFiltradas);
         } catch (error) {
             console.error("Error al filtrar los registros por tiempo", error.message);
         }
     }
 
-
-    const obtenerNombreCliente = async (id) => {
-        try {
-            const url = `${Global.url}/clienteporid/${id}`;
-            const response = await fetch(url, { method: 'GET' });
-            if (!response.ok) {
-                throw new Error("No se ha obtenido respuesta de la API clientes");
-            }
-            const cliente = await response.json();
-            return cliente[0].nombre;
-        } catch (error) {
-            console.error("Error al obtener el nombre del cliente", error);
-        }
-    }
 
     const eliminarReserva = async(id) => {
         try {
@@ -131,7 +114,7 @@ const Reservas = () => {
             return;
         }
         setTituloFecha(fechaSeleccionada);
-        obtenerRegistros(fechaSeleccionada);
+        porFecha(fechaSeleccionada);
     }
 
     const devolverFecha = (formatofecha) => {
