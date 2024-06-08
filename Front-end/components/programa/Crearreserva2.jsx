@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Global } from '../../helpers/Global';
 import Sidebar from './Sidebar';
 
-
 function ReservaForm() {
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
@@ -42,7 +41,6 @@ function ReservaForm() {
 
     const verificarCapacidad = async () => {
         if (!selectedSala || !fecha || !hora) return;
-        console.log("Hola dxfg");
         const url = `${Global.url}/disponibilidad?salaId=${selectedSala}&fecha=${fecha}&hora=${hora}`;
         const response = await fetch(url, {method:'GET'});
         console.log(response)
@@ -136,7 +134,7 @@ function ReservaForm() {
                   <input type="email" value={email} onChange={e => setEmail(e.target.value)}/>
                   
                   <label htmlFor="">Fecha</label><br />
-                  <input type="date" value={fecha} onChange={e => setFecha(e.target.value)} />
+                  <input className='input-fechas' type="date" value={fecha} onChange={e => setFecha(e.target.value)} />
                 </div>
 
                 <div className="form2">
@@ -146,7 +144,7 @@ function ReservaForm() {
                       <option value="Noche">Noche</option>
                   </select>
 
-                  <label htmlFor="">Seleccione hora</label><br />
+                  <label htmlFor="">Seleccione sala</label><br />
                   <select value={selectedSala} onChange={e => setSelectedSala(e.target.value)}>
                       <option value="">Seleccionar</option>
                       {salas.map((sala) => (
@@ -154,13 +152,16 @@ function ReservaForm() {
                       ))}
                   </select>
 
-                  <label htmlFor="">Seleccione</label><br />
+                  <label htmlFor="">Seleccione la hora</label><br />
                   {renderHorasSelector()}
 
                   <label htmlFor="">Comensales</label>
                   <input type="number" value={comensales} onChange={e => setComensales(parseInt(e.target.value, 10))} min="1" />
-                  
-                  <button className='btn-reserva' type="submit">Crear Reserva</button>
+
+                </div>
+
+                <div className='boton-form'>
+                  <button className='btn-reserva' type="submit">Crear reserva</button>
                 </div>
                </form>
               </main>

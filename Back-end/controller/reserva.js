@@ -123,19 +123,11 @@ class ReservaController {
         try {
             const conn = await getConnection();
             const [results] = await conn.query(`
-                SELECT 
-                    s.capacidad - COALESCE(SUM(r.comensales), 0) AS capacidad_disponible
-                FROM 
-                    Sala s
-                LEFT JOIN 
-                    Reserva r ON s.idSala = r.sala_id 
-                    AND r.fecha = ?
-                    AND r.tiempo = ?
-                    AND r.estado = 'Confirmado'
-                WHERE 
-                    s.idSala = ?
-                GROUP BY 
-                    s.idSala
+                SELECT s.capacidad - COALESCE(SUM(r.comensales), 0) AS capacidad_disponible
+                    FROM Sala s
+                        LEFT JOIN  Reserva r ON s.idSala = r.sala_id  AND r.fecha = ? AND r.tiempo = ? AND r.estado = 'Confirmado'
+                            WHERE s.idSala = ? 
+                                GROUP BY s.idSala
             `, [fecha, tiempo, salaId]);
     
             res.json({ capacidad_disponible: results[0]?.capacidad_disponible || 0 });
@@ -168,7 +160,7 @@ class ReservaController {
     // }
     static async crearReserva (req, res) {
         console.log("crear reserva");
-        const { fecha, hora, nombre, apellido, telefono, salaId, comensales, tiempo } = req.body;
+        const { fecha, hora, nombre, apellido, telefono, email, salaId, comensales, tiempo } = req.body;
     
         try {
             const conn = await getConnection();
@@ -184,8 +176,8 @@ class ReservaController {
                 clienteId = cliente[0].idCliente;
             } else {
                 // Cliente no existe, crear uno nuevo
-                query = 'INSERT INTO Cliente (nombre, apellido, telefono) VALUES (?, ?, ?)';
-                const [result] = await conn.query(query, [nombre, apellido, telefono]);
+                query = 'INSERT INTO Cliente (nombre, apellido, telefono, email) VALUES (?, ?, ?, ?)';
+                const [result] = await conn.query(query, [nombre, apellido, telefono, email]);
                 console.log(result)
                 clienteId = result.insertId;
             }

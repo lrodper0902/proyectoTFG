@@ -24,17 +24,26 @@ const Reservas = () => {
             }
             let datos = await response.json();
             console.log(datos)
-            // datos = datos.filter(reserva => reserva.fecha && reserva.fecha.split('T')[0] === fechaBuscada);
+
             const fechaFormateada = moment(fechaBuscada).format('YYYY-MM-DD');
 
             // Filtrar las reservas por la fecha formateada
-            datos = datos.filter(reserva => reserva.fecha && moment(reserva.fecha).format('YYYY-MM-DD') === fechaFormateada);
-        
-            const reservasConNombres = await Promise.all(datos.map(reserva => agregarNombreAReserva(reserva)));
-            setReservas(reservasConNombres);
+            const reservasConDatos = await Promise.all(
+                datos.filter(reserva => moment(reserva.fecha).format('YYYY-MM-DD') === fechaFormateada)
+                    .map(async reserva => ({
+                        ...reserva,
+                        nombreCliente: await obtenerNombreCliente(reserva.cliente_id),
+                        nombreSala: await obtenerNombreSala(reserva.sala_id)
+                    }))
+            );
+            setReservas(reservasConDatos);
         } catch (error) {
             console.error("Error al obtener los registros por fecha", error);
         }
+    }
+
+    const porFecha = () => {
+        const reservasFecha = obtener
     }
 
     const agregarNombreAReserva = async (reserva) => {
@@ -45,6 +54,17 @@ const Reservas = () => {
             return { ...reserva, nombre: 'Desconocido' };
         }
     }
+
+    const obtenerNombreSala = async (sala_id) => {
+        try {
+            const response = await fetch(`${Global.url}/obtenersala/${sala_id}`);
+            const sala = await response.json();
+            return sala.nombre;
+        } catch (error) {
+            console.error("Error al obtener el nombre de la sala", error);
+            return 'Nombre no disponible';
+        }
+    };
 
     const mostrarRegistrosPorTiempo = async (tipoTiempo, fecha) => {
         try {
@@ -57,9 +77,9 @@ const Reservas = () => {
             
             let reservasFiltradas;
             if (tipoTiempo === "todos") {
-            reservasFiltradas = datos.filter(reserva => moment(reserva.fecha).isSame(fecha, 'day'));
+                reservasFiltradas = datos.filter(reserva => moment(reserva.fecha).isSame(fecha, 'day'));
             } else {
-            reservasFiltradas = datos.filter(reserva => reserva.tiempo === tipoTiempo && moment(reserva.fecha).isSame(fecha, 'day'));
+                reservasFiltradas = datos.filter(reserva => reserva.tiempo === tipoTiempo && moment(reserva.fecha).isSame(fecha, 'day'));
             }
             
             const reservasConNombres = await Promise.all(reservasFiltradas.map(reserva => agregarNombreAReserva(reserva)));
@@ -153,6 +173,9 @@ const Reservas = () => {
                                     <option value="Noche">Cena</option>
                                 </select>
                             </form>
+                            <div className='boton-lista-reservas'>
+                                <button onClick={obtenerRegistros}>Todas las reservas</button>
+                            </div>
                         </article>
 
                         <main className='registros-reservas'>
@@ -167,6 +190,7 @@ const Reservas = () => {
                                             <th>Hora</th>
                                             <th>Anticipo</th>
                                             <th>Comensales</th>
+                                            <th>Sala</th>
                                             <th>Mesa</th>
                                             <th>Eliminar</th>
                                         </tr>
@@ -174,11 +198,12 @@ const Reservas = () => {
                                     <tbody>
                                         {reservas.map(reserva => (
                                             <tr key={reserva.cliente_id}>
-                                                <td>{reserva.nombre}</td>
+                                                <td>{reserva.nombreCliente}</td>
                                                 <td>{devolverFecha(reserva.fecha)}</td>
                                                 <td>{devolverHora(reserva.hora)}h</td>
                                                 <td>{reserva.precioPagado}€</td>
                                                 <td>{reserva.comensales}</td>
+                                                <td>{reserva.nombreSala}</td>
                                                 <td>{reserva.mesa_id}</td>
                                                 <td><button className='btn-eliminar' onClick={() => eliminarReserva(reserva.idReserva)}>
                                                         <FontAwesomeIcon  icon={faTrash}/>

@@ -121,9 +121,14 @@
     td{
         padding: 10px 0px;
         text-align: center;
+        
         .btn-eliminar{
-
             border: 0px;
+        }
+        .boton-banner{
+            border-radius: 3px;
+            border: 0px;
+            padding: 6px 9px;
         }
     }
     tr.cursor{
@@ -156,9 +161,11 @@
                     padding: 10px 0px;
                     text-align: left;
                     border-bottom: 1px solid rgb(187, 187, 187);
+                    .boton-banner{
+                        border-radius: 3px;
+                    }
                 }
             }
-            
         }
     }
 }
@@ -174,5 +181,10 @@
     border-bottom:1px solid gray;
     width: $width;
     background: transparent;
+}
+
+@mixin titulo-app(){
+    font-size: 35px;
+    text-transform: uppercase;
 }
 

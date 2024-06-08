@@ -3,6 +3,6 @@ const router = express.Router();
 const SalaController = require('../controller/salas');
 
 router.get('/salas', SalaController.getAllSalas);
-router.get('/mesaporid/:id', SalaController.getSala);
+router.get('/obtenersala/:id', SalaController.getSala);
 
 module.exports = router;

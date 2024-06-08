@@ -216,9 +216,6 @@ const Usuarios = () => {
 
               <label htmlFor="horaRegistro"><strong>Banear usuario: </strong></label>
               <p>{baneadeo(selectedCliente.banear)}</p>
-
-              {/* <button type="submit" className="button-update">Actualizar</button> */}
-              {/* <input type="submit" value="Actualizar"  className="button-update"/> */}
           </div>
         )}
       </div>

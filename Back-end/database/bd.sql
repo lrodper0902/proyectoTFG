@@ -26,7 +26,7 @@ CREATE TABLE Reserva (
     fecha DATE NOT NULL,
     hora TIME,
     cliente_id INT,
-    sala_id INT,  -- Cambiado de mesa_id a sala_id
+    sala_id INT, 
     comensales INT DEFAULT 1,
     tiempo ENUM('Mediodia', 'Noche') NOT NULL DEFAULT 'Mediodia',
     estado ENUM('Confirmado', 'Cancelado') DEFAULT 'Confirmado',
