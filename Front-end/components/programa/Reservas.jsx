@@ -249,7 +249,8 @@ const Reservas = () => {
                                       <tbody>
                                           {reservas.map(reserva => (
                                               <tr key={reserva.cliente_id}>
-                                                  <td><strong>{reserva.nombre}</strong></td>
+                                                  <td><strong>{reserva.nombreCliente}</strong></td>
+                                                  <td>{devolverFecha(reserva.fecha)}</td>
                                                   <td>{devolverHora(reserva.hora)}h</td>
                                                   <td>{reserva.precioPagado}€</td>
                                                   <td>{reserva.comensales} pers.</td>

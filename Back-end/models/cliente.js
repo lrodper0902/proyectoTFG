@@ -18,6 +18,7 @@ class Cliente {
     static async register(data) {
         const conn = await getConnection();
         const { nombre, apellido, telefono, email, password } = data;
+        console.log(nombre+' Contraseña:'+ password)
     
         if (!password) {
             throw new Error("La contraseña no puede estar vacía " + nombre);
@@ -25,21 +26,39 @@ class Cliente {
     
         const hashedPassword = await bcrypt.hash(password, 10);
         // Asumiendo que deseas establecer `login` como FALSE al registrar un nuevo usuario
-        const result = await conn.query('INSERT INTO Cliente (nombre, apellido, telefono, email, password, login) VALUES (?, ?, ?, ?, ?, TRUE)', [nombre, apellido, telefono, email, hashedPassword]);
+        const [result] = await conn.query('INSERT INTO Cliente (nombre, apellido, telefono, email, password, login) VALUES (?, ?, ?, ?, ?, TRUE)', [nombre, apellido, telefono, email, hashedPassword]);
         return result;
     }
     
-    static async login(email, password) {
-        const conn = await getConnection();
-        const user = await conn.query('SELECT * FROM Cliente WHERE email = ?', [email]);
-        
-        if (user.length === 0) return null;  // Usuario no encontrado
-        
-        const match = await bcrypt.compare(password, user[0].password);
-        if (!match) return null;  // Contraseña incorrecta
     
-        const token = createToken(user[0]);
-        return { token };  // Devolver el token
+    static async login({ email, password }) {
+        const conn = await getConnection();
+        const [result] = await conn.query( 'SELECT idCliente, email, password, rol FROM Cliente WHERE email = ?', [email])
+        if (result.length === 0) {
+            throw new Error('Usuario no encontrado');
+        } 
+
+        const user = result[0];
+
+        const passwordIsValid = await bcrypt.compare(password, user.password);
+        console.log(passwordIsValid)
+
+        if (passwordIsValid) {
+            return { idCliente: user.idCliente, email: user.email, rol: user.rol };
+        } else {
+            return {message: "Contraseña incorrecta"}
+        }
+    }
+
+    static async create(data) {
+        const conn = await getConnection();
+        console.log('Datos')
+        console.log(data)
+        const { nombre, apellido, telefono, email, password, login } = data;
+        console.log(nombre + ' ' + apellido + ' ' + telefono + ' ' + email + ' ' + password + ' ' + login)
+        const [result] = await conn.query('INSERT INTO Cliente (nombre, apellido, telefono, email, password, login) VALUES (?, ?, ?, ?, ?, ?)', [nombre, apellido, telefono, email, password, login]);
+
+        return result;
     }
 
     static async create(data) {
@@ -49,6 +68,7 @@ class Cliente {
         return result;
     }
 
+
     static async update(id, data) {
        
         try {
@@ -56,7 +76,7 @@ class Cliente {
             const { banear } = data;
             console.log(banear)
     
-            const [result, fileds] = await conn.query('UPDATE Cliente SET banear = ? WHERE idCliente = ?', [banear, id]);
+            const [result] = await conn.query('UPDATE Cliente SET banear = ? WHERE idCliente = ?', [banear, id]);
             console.log("result"+result)
             return result;
         } catch (error) {
@@ -66,7 +86,7 @@ class Cliente {
 
     static async delete(id) {
         const conn = await getConnection();
-        const result = await conn.query('DELETE FROM Cliente WHERE idCliente = ?', [id]);
+        const [result] = await conn.query('DELETE FROM Cliente WHERE idCliente = ?', [id]);
         return result;
     }
 }

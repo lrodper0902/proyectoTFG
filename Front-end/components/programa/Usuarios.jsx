@@ -11,6 +11,7 @@ const Usuarios = () => {
   const [selectedCliente, setSelectedCliente] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8);
+  const [isBanned, setIsBanned] = useState(false);
 
   useEffect(() => {
     obtenerUsuarios();
@@ -24,9 +25,10 @@ const Usuarios = () => {
         throw new Error("Error al conectar a la base de datos");
       }
       const data = await response.json();
-      const formattedData = data.map(cliente => ({ ...cliente, localBaneado: cliente.baneado }));
-      setClientes(formattedData);
-      setClientesFiltrados(formattedData);
+      const listaClientes = data.filter(c => c.rol === "cliente")
+      
+      setClientes(listaClientes);
+      setClientesFiltrados(listaClientes);
     } catch (error) {
       console.error("No se ha obtenido la lista de usuarios", error);
     }
@@ -54,18 +56,18 @@ const Usuarios = () => {
 
   const handleToggleBaneado = async(cliente) => {
     console.log(cliente)
+    const baneado = !cliente.banear;
 
     try {
       const url = `${Global.url}actualizarcliente/${cliente.idCliente}`;
-      const data = { ...cliente, 
-                  baneado: cliente.banear };
+      console.log(cliente.banear)
 
       const response = await fetch(url, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({banear: baneado}),
       });
       console.log(response)
 

@@ -73,7 +73,8 @@ function ReservaForm() {
           hora, 
           comensales, 
           salaId: selectedSala, 
-          tiempo};
+          tiempo
+        };
 
         const response = await fetch(Global.url + '/reservas', {
             method: 'POST',

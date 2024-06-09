@@ -8,6 +8,7 @@ CREATE TABLE Cliente (
     apellido VARCHAR(50),
     telefono VARCHAR(20),
     email VARCHAR(100) UNIQUE,
+    rol ENUM('admin', 'cliente') DEFAULT 'cliente',
     password VARCHAR(255) DEFAULT NULL,
     login BOOLEAN DEFAULT FALSE, 
     banear BOOLEAN DEFAULT FALSE,

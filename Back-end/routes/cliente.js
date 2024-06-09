@@ -8,6 +8,6 @@ router.get('/clienteporid/:id', ClienteController.getCliente);
 router.post('/nuevocliente', ClienteController.createCliente);
 router.put('/actualizarcliente/:id', ClienteController.updateCliente);
 router.delete('/eliminarcliente/:id', ClienteController.deleteCliente);
-
+router.post('/login', ClienteController.login);
 
 module.exports = router;
