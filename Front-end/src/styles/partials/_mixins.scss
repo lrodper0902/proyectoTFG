@@ -79,6 +79,14 @@
     border:0px;
 }
 
+@mixin formulario{
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 10px;
+    @include flex(center, center);
+}
+
 @mixin title(){
     font-size: 45px;
     margin: 0 auto;

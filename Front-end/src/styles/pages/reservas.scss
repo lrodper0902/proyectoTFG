@@ -15,14 +15,6 @@
         grid-column: 1/3;
         grid-row: 1/2;
     }
-    // hr{
-    //   width: 1px;     /* Hace la línea delgada */
-    //   height: 400px;   /* Establece la altura para llenar el contenedor */
-    //   margin: 0 auto; /* Centra la línea si es necesario */
-    //   border: none;   /* Elimina el borde predeterminado */
-    //   background-color: #000;
-    //   margin-top: -400px;
-    // }
 
     .contain-calendario-informacion{
         display: flex;
@@ -36,28 +28,17 @@
             margin: 0 auto;
             margin-top: 20px;
         }
+        // .hr-form{
+        //     color: black !important;
+        //     opacity: 1 !important;
+        //     margin-top: 10px !important;
+        // }
         .titulo{
             flex:100% ;
             h3{
                 text-align: center;
             }            
         }
-
-        // @include grande(){
-        //     background: rgb(198, 103, 103);
-        //     grid-template-rows: 30px 1fr 1fr;
-        //     grid-template-columns: 1fr;
-        //     h3{
-        //         grid-row: 1/2;
-        //     }
-        //     .descripcion-reservas{
-        //         grid-row: 2/3;
-        //     }
-        //     .reservas{
-        //         grid-row: 3/4;
-        //     }
-        // }
-        // height: 1200px;
 
          .descripcion-reservas{
             // border-right: 1px solid rgb(180, 180, 180);
@@ -80,23 +61,87 @@
             border-left: 1px solid rgb(185, 185, 185);
             margin-right: 50px;
             flex: 1 30%;
-            justify-content: center;
-            align-items: center;
-            display: flex;
-            flex-flow: wrap row;
+            @include flex(center, center);
             gap:20px;
 
-            form{
-                width: 500px;
-                display: flex;
-                flex-flow: wrap row;
-                align-items: center;
-                margin: 0 auto;
-                border: 1px solid rgb(196, 196, 196);
+            .cuenta{
+                margin-bottom: 20px;
                 text-align: center;
-                border-radius: 10px;
-                padding: 20px 0px;
+                h4{
+                    margin-bottom: 20px;
+                }
+                form{
+                    @include formulario();
+                    input[type="submit"],
+                    input{
+                        margin-top: 20px;
+                    }
+                    input[type="submit"]{
+                        margin-right: 30px;
+                        align-items: end;
+                    }
+                    div{
+                      @include flex-grid(grid);
+                      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                    }
+                }
+            }
 
+            .form-pago{
+                .formulario-pago{
+                    margin: 0px 30px 0px 10px;
+                    label{
+                        width: 30% !important;
+                    }
+                    input{
+                        width: 55% !important;
+                    }
+                }
+
+                .informacion{
+                    margin:15px 40px;
+                    text-align: start;
+                    div{
+                        h4{
+                            margin-bottom: 30px;
+                        }
+                        width: 67%;
+                        margin: 0 auto
+                    }
+                }  
+            }
+
+            form{
+                @include formulario();
+
+                .formulario-fecha{
+                    margin-top: 20px;
+                    border: 1px solid rgb(191, 191, 191);
+                    border-radius: 10px;
+
+                    h3{
+                        flex:1 100%;
+                        margin-bottom: 30px;
+                    }
+
+                    .selecionar-comida-cena{
+                        .meal-button {
+                            padding: 10px 20px;
+                            background-color: $WHITE;
+                            border: 1px solid #ccc;
+                            outline: none;
+                        }
+                          
+                        .meal-button.active {
+                            background-color: $ROJO;
+                            color: white;
+                            border-color:  $ROJO;
+                        }
+                    }  
+                    div{
+                        margin: 20px 0px;
+                    } 
+                } 
                 input[type="submit"]{
                     @include boton2;
                     margin: 0 auto;
@@ -105,28 +150,7 @@
 
                 input[type="submit"]:hover{
                     @include buton_hover;
-                }
-
-                h3{
-                    flex:1 100%;
-                    margin-bottom: 30px;
-                }
-
-                .selecionar-comida-cena{
-                    margin: 20px 0px;
-                    .meal-button {
-                        padding: 10px 20px;
-                        background-color: $WHITE;
-                        border: 1px solid #ccc;
-                        outline: none;
-                    }
-                      
-                    .meal-button.active {
-                        background-color: $ROJO;
-                        color: white;
-                        border-color:  $ROJO;
-                    }
-                }              
+                }               
 
                 div{
                     label{
@@ -141,6 +165,46 @@
                         width: 100px;
                         padding: 8px;
                     }
+                }
+            }
+        }
+        .div-reservas-pago-cuenta{
+            border-radius: 10px;
+            border: 1px solid gray;
+            padding: 40px;
+            h3{
+                margin-bottom: 40px;
+            }
+            .proceder-pago-tarjeta{
+                // display: grid;
+                margin:0px 50px;
+                text-align: start;
+                // align-items: start !important;
+                input[type="button"]{
+                    margin-top: 30px;
+                    margin-left: 20px;
+                    @include boton();
+                    width: 30%;
+                }
+                .numero-tarjeta{
+                    width: 60%;
+                }
+                .cvv, .mm-aa{
+                    width: 10%;
+                    margin:10px;
+                }
+                label{
+                    margin: 10px;
+                }
+                svg{
+                    margin-right: 10px;
+                }
+            }
+            .btn{
+                width: 100% !important;
+                input{
+                    width: 40% !important;
+                    margin: 20px 10px 0px 10px !important;
                 }
             }
         }

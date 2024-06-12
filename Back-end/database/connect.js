@@ -12,7 +12,7 @@ const pool = mysql.createPool({
 
 const getConnection = async () => {
     try {
-        console.log('Conectado correctamente <3');
+        console.log('Conectado correctamente a la base de datos: restaurante_database' );
        return pool;
     } catch (error) {
         console.error("No se ha podido conectar a la base de datos del restaurante", error)
@@ -21,3 +21,6 @@ const getConnection = async () => {
 };
 
 module.exports = getConnection;
+
+
+

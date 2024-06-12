@@ -7,7 +7,7 @@ import Calendario from '../elementos/Calendario';
 
 export const Formreservas = ({ date, comensales, hora, comida, selectedSala }) => {
     const [showFormReservas, setShowFormReservas] = useState(false);
-    const [idCliente, setIdCliente] = useState('');
+    // const [idCliente, setIdCliente] = useState('');
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
     const [email, setEmail] = useState('');
@@ -88,23 +88,39 @@ export const Formreservas = ({ date, comensales, hora, comida, selectedSala }) =
     }
 
   return (
-    <div >
+    <div className='div-reservas-pago-cuenta'>
        <div className="cuenta">
-            <h4>Ya tengo cuenta</h4>
-            <form onSubmit={handlereservaUsuarioLogeado}>
-                <label htmlFor="">Correo electrónico:</label><br />
-                <input required type="text" name="" id="" /><br />
+          <h4>Ya tengo cuenta</h4>
+          <form onSubmit={handlereservaUsuarioLogeado}>
+            <div>
+              <label htmlFor="">Correo electrónico:</label>
+              <input  placeholder='Correo electrónico'required type="text" name="" id="" />
 
-                <label htmlFor="">Contraseña</label><br />
-                <input  required type="password" name="" id="" /><br />
-
-                <input type="submit" value="reservar" />
-            </form>
+              <label htmlFor="">Contraseña</label>
+              <input placeholder='Contraseña'  required type="password" name="" id="" />              
+            </div>
+            <input type="submit" value="reservar" />
+          </form>
         </div>
 
-        <form onSubmit={handleReserva}>
-            <label htmlFor="">Nombre</label><br />
+        <hr  className='hr-form'/>
+
+        <form onSubmit={handleReserva} className='form-pago'>
+        <div className="informacion">
+            <div>
+              <h4>Resumen de la reserva</h4>
+              <p><strong>Precio reserva:</strong> 30€</p>
+              <p><strong>Local:</strong> Restaurante 7 Monjas</p>
+              <p><strong>Dirección:</strong> Calle Monjas, 7, 18800 Baza</p>
+              <p><strong>Fecha:</strong> {date.toLocaleDateString()} {hora}</p>
+            </div>
+          </div>
+
+          <div className='formulario-pago'>
+            
+            <label htmlFor="">Nombre</label>
             <input
+              placeholder='Nombre'
               required
               type="text"
               id="nombre"
@@ -112,8 +128,9 @@ export const Formreservas = ({ date, comensales, hora, comida, selectedSala }) =
               onChange={(e) => setNombre(e.target.value)}
             />
 
-            <label htmlFor="">Apellido</label><br />
+            <label htmlFor="">Apellido</label>
             <input
+              placeholder='apellido'
               required
               type="text"
               id="apellido"
@@ -121,8 +138,9 @@ export const Formreservas = ({ date, comensales, hora, comida, selectedSala }) =
               onChange={(e) => setApellido(e.target.value)}
             />
 
-            <label htmlFor="">Email</label><br />
+            <label htmlFor="">Email</label>
             <input
+              placeholder='email'
               required
               type="email"
               id="email"
@@ -130,8 +148,9 @@ export const Formreservas = ({ date, comensales, hora, comida, selectedSala }) =
               onChange={(e) => setEmail(e.target.value)}
             />
 
-            <label htmlFor="">Teléfono</label><br />
+            <label htmlFor="">Teléfono</label>
             <input
+              placeholder='Teléfono'
               required
               type="tel"
               id="telefono"
@@ -139,40 +158,31 @@ export const Formreservas = ({ date, comensales, hora, comida, selectedSala }) =
               onChange={(e) => setTelefono(e.target.value)}
             />
 
-            <hr />
-            <div className="informacion">
-                <div>
-                    <p><strong>Precio reserva:</strong></p>
-                    <p><strong>Local:</strong></p>
-                    <p><strong>Dirección:</strong></p>
-                    <p><strong>Fecha:</strong></p>
-                </div>
-                <div>
-                    <p>30€</p>
-                    <p>Restaurante 7 Monjas</p>
-                    <p>Calle Monjas, 7, 18800 Baza</p>
-                    <p>{date.toLocaleDateString()} {hora}</p>
-                </div>
-            </div>
+          </div>
 
-            <h3>Pagar con tarjeta</h3>
-            {/* Proceder al pago */}
+          <h3>Pagar con tarjeta</h3>
+          {/* Proceder al pago */}
+          <div className='proceder-pago-tarjeta'>
             <label htmlFor="">Nº de tarjeta:</label>
-            <FontAwesomeIcon icon={faCreditCard} /><br />
-            <input type="text" required name="" id="" /><br />
+            <FontAwesomeIcon icon={faCreditCard} />
+            <input placeholder='0000 0000 0000 0000' className='numero-tarjeta' type="text" required name="" id="" />
 
             <label htmlFor="">Caducidad:</label>
-            <FontAwesomeIcon icon={faCalendarDays} /><br />
-            <input type="text" name="" placeholder='mm' id="" /><br />
-            <input type="text" name="" placeholder='aa' id="" /><br />
+            <FontAwesomeIcon icon={faCalendarDays} />
+            <input className='mm-aa' type="text" name="" placeholder='mm' id="" />
+            <input className='mm-aa' type="text" name="" placeholder='aa' id="" /><br />
 
             <label htmlFor="">CVV:</label>
             <FontAwesomeIcon icon={faLock} />
-            <input type="text" name="" id="" />
+            <input placeholder='123' className='cvv' type="text" name="" id="" /><br />
 
-            <input type="submit" value="Reservar" />
+            <div className="btn">
+              <input type="button" value="Atrás" onClick={handleBack} />
+              <input type="submit" value="Reservar" />
+            </div>
 
-            <input type="button" value="Atrás" onClick={handleBack} />
+          </div>
+         
         </form>
  
     </div>

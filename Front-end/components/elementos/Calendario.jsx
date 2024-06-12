@@ -133,7 +133,7 @@ const Calendario = () => {
           />
         </div>
 
-        <div>
+        <div className='formulario-fecha'>
           <h3>Reserva ya</h3>
           <div>
             <label htmlFor="">Comensales</label>
