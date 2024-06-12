@@ -24,7 +24,7 @@ export const Header = () => {
             <Nav.Link as={Link} className='menu-option' to="/vinos">Vinos</Nav.Link>
             <Nav.Link as={Link} className='menu-option' to="/catering">Catering</Nav.Link>
             <Nav.Link as={Link} className='menu-option' to="/reservas">Reservas</Nav.Link>
-            <Nav.Link as={Link} className='menu-option' to="/login">Login</Nav.Link>
+            <Nav.Link as={Link} className='menu-option' to="/login">Cuenta</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -1,5 +1,5 @@
 const getConnection = require('../database/connect');
-const jwt = require("../services/jwt");
+// const jwt = require("../services/jwt");
 const bcrypt = require('bcryptjs'); 
 
 class Cliente {
@@ -14,18 +14,21 @@ class Cliente {
         const [rows] = await conn.query('SELECT * FROM Cliente WHERE idCliente = ?', [id]);
         return rows;
     }
+
+    static async findByEmail(email) {
+        const conn = await getConnection();
+        const [rows] = await conn.query('SELECT * FROM Cliente WHERE email = ?', [email]);
+        return rows;
+    }    
         
     static async register(data) {
         const conn = await getConnection();
         const { nombre, apellido, telefono, email, password } = data;
         console.log(nombre+' Contraseña:'+ password)
-    
         if (!password) {
             throw new Error("La contraseña no puede estar vacía " + nombre);
         }
-    
         const hashedPassword = await bcrypt.hash(password, 10);
-        // Asumiendo que deseas establecer `login` como FALSE al registrar un nuevo usuario
         const [result] = await conn.query('INSERT INTO Cliente (nombre, apellido, telefono, email, password, login) VALUES (?, ?, ?, ?, ?, TRUE)', [nombre, apellido, telefono, email, hashedPassword]);
         return result;
     }
@@ -37,11 +40,8 @@ class Cliente {
         if (result.length === 0) {
             throw new Error('Usuario no encontrado');
         } 
-
         const user = result[0];
-
         const passwordIsValid = await bcrypt.compare(password, user.password);
-        console.log(passwordIsValid)
 
         if (passwordIsValid) {
             return { idCliente: user.idCliente, email: user.email, rol: user.rol };
@@ -51,33 +51,26 @@ class Cliente {
     }
 
     static async create(data) {
-        const conn = await getConnection();
-        console.log('Datos')
-        console.log(data)
-        const { nombre, apellido, telefono, email, password, login } = data;
-        console.log(nombre + ' ' + apellido + ' ' + telefono + ' ' + email + ' ' + password + ' ' + login)
-        const [result] = await conn.query('INSERT INTO Cliente (nombre, apellido, telefono, email, password, login) VALUES (?, ?, ?, ?, ?, ?)', [nombre, apellido, telefono, email, password, login]);
-
-        return result;
+        try {
+            const conn = await getConnection();
+            const { nombre, apellido, telefono, email, password, login } = data;
+            console.log('Datos recibidos para registro:', data);
+    
+            const [result] = await conn.query('INSERT INTO Cliente (nombre, apellido, telefono, email, password, login) VALUES (?, ?, ?, ?, ?, ?)', [nombre, apellido, telefono, email, password, login]);
+            console.log('Cliente creado con éxito:', result);
+            return result;
+        } catch (error) {
+            console.error('Error al crear el cliente:', error);
+            throw error; // Re-lanzar el error para manejo en el caller
+        }
     }
-
-    static async create(data) {
-        const conn = await getConnection();
-        const { nombre, apellido, telefono, email, password, login } = data;
-        const result = await conn.query('INSERT INTO Cliente (nombre, apellido, telefono, email, password, login) VALUES (?, ?, ?, ?, ?, ?)', [nombre, apellido, telefono, email, password, login]);
-        return result;
-    }
-
 
     static async update(id, data) {
-       
         try {
             const conn = await getConnection();
             const { banear } = data;
-            console.log(banear)
-    
             const [result] = await conn.query('UPDATE Cliente SET banear = ? WHERE idCliente = ?', [banear, id]);
-            console.log("result"+result)
+
             return result;
         } catch (error) {
             throw error;

@@ -1,6 +1,48 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { Global } from '../../helpers/Global';
 
 export const Catering = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`${Global.url}send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      console.log(response)
+      const data = await response.json();
+      alert(data.message);
+      // if(response.ok){
+      //   formData= {
+      //     name: '',
+      //     email: '',
+      //     phone: '',
+      //     message: ''
+      //   };
+      // }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error al enviar el formulario');
+    }
+  };
+
   return (
     <div className='contain-catering'>
       <div className='cabecera-catering'>
@@ -29,7 +71,7 @@ export const Catering = () => {
 
       <div className='reservar-catering'>
         <h3>Reserva tu catering</h3>
-        <form action="" method="post">
+        <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="">Nombre</label><br />
             <input type="text" /><br />

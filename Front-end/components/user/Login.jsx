@@ -35,6 +35,8 @@ const Login = () => {
         
         if(data.rol === 'admin'){
           navigate('/app/usuarios');
+        }else{
+          navigate('/usuario')
         }
       } else {
         alert('Fallo al iniciar sesión, verifica tus credenciales');

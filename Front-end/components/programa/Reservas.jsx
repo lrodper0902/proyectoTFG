@@ -15,7 +15,8 @@ const Reservas = () => {
 
     useEffect(() => {
         const fechaActual = new Date().toISOString().split('T')[0];  
-        obtenerRegistros(fechaActual);
+        console.log(fechaActual)
+        obtenerFechaActual(fechaActual);
         setTituloFecha(fechaActual);
     }, []);
 
@@ -33,6 +34,24 @@ const Reservas = () => {
             console.error("Error al obtener los registros", error);
         }
     };
+    const obtenerFechaActual = async(fecha) => {
+        const fechaFormateada = moment(fecha).format('YYYY-MM-DD');
+        const listaRegistros = await obtenerRegistros();
+        console.log(listaRegistros)
+
+        const lista = await Promise.all(
+            listaRegistros.filter(f => {
+                console.log(moment(f.fecha).format('YYYY-MM-DD'))
+                return moment(f.fecha).format('YYYY-MM-DD') === fechaFormateada                
+            }).map(async registros => ({
+                ...registros,
+                nombreCliente: await obtenerNombreCliente(registros.cliente_id),
+                nombreSala: await obtenerNombreSala(registros.sala_id)
+            }) )
+        ) 
+        console.log(lista)
+        setReservas(lista);
+    }
 
     const todosRegistros = async() => {
         const listaRegistros = await obtenerRegistros();
@@ -63,6 +82,7 @@ const Reservas = () => {
     };
     
     const porFecha = async (fechaBuscada) => {
+
         try {
             const reservas = await obtenerRegistros(); // Asegurarse de que esta promesa se resuelva.
             const fechaFormateada = moment(fechaBuscada).format('YYYY-MM-DD');

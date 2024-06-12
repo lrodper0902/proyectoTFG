@@ -6,6 +6,8 @@
     border-radius: 8px;
     border: 1px solid rgb(189, 189, 189);
     padding: 10px;
+
+
   
     .react-calendar__navigation {
         border:0px !important;
@@ -69,6 +71,22 @@
   
     .react-calendar__month-view__days__day--neighboringMonth {
       color: #b0b0b0;
+
+
+    }
+    .open {
+      background-color: #fcdfbd; 
+      color: black;
+    }
+    
+    .closed {
+      background-color: #dadada; 
+      color: black;
+    }
+
+    .completo{
+      background-color: #ff2121;
+      color: black;
     }
   
     .react-calendar__tile--now {

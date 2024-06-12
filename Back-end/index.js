@@ -21,16 +21,22 @@ const ClienteRoutes  = require("./routes/cliente");
 const ReservaRoutes = require("./routes/reserva");
 const MesaRoutes = require("./routes/mesa");
 const SalasRoutes = require("./routes/salas");
+const emailRoutes = require('./routes/email');
 
 app.use("/api", ClienteRoutes);
 app.use("/api", ReservaRoutes);
 app.use("/api", MesaRoutes);
 app.use("/api", SalasRoutes);
 
-// app.post('/api/login', authController.login);
+app.use('/api', emailRoutes);
 
 
 // Poner servidor a escuchar peticiones http
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
+
+
+
+

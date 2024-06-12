@@ -33,13 +33,12 @@ CREATE TABLE Reserva (
     estado ENUM('Confirmado', 'Cancelado') DEFAULT 'Confirmado',
     precioPagado DECIMAL(10, 2),
     FOREIGN KEY (cliente_id) REFERENCES Cliente(idCliente),
-    FOREIGN KEY (sala_id) REFERENCES Sala(idSala)  -- Corregido para coincidir con el nombre de la tabla
+    FOREIGN KEY (sala_id) REFERENCES Sala(idSala)
 );
 
--- Opcional: Si decides mantener la tabla Mesa
 CREATE TABLE Mesa (
     idMesa INT AUTO_INCREMENT PRIMARY KEY,
-    numeroMesa INT,
+    numeroMesa INT AUTO_INCREMENT,
     capacidad INT, 
     estado ENUM('Disponible', 'Ocupada') DEFAULT 'Disponible',
     idSala INT,

@@ -8,15 +8,15 @@ function ReservaForm() {
     const [telefono, setTelefono] = useState('');
     const [email, setEmail] = useState('');
     const [fecha, setFecha] = useState('');
-    const [tiempo, setTiempo] = useState('Mediodia'); // 'Mediodia' o 'Noche'
+    const [tiempo, setTiempo] = useState('Mediodia');
     const [hora, setHora] = useState('');
     const [comensales, setComensales] = useState(1);
     const [salas, setSalas] = useState([]);
     const [selectedSala, setSelectedSala] = useState('');
     const [capacidadDisponible, setCapacidadDisponible] = useState(null);
 
-    const horasMediodia = ['12:00', '13:00', '14:00']; // Ejemplo de horas de mediodía
-    const horasNoche = ['19:00', '20:00', '21:00']; // Ejemplo de horas de noche
+    const horasMediodia = ['13:00', '13:30', '14:00', '14:30', '15:00'];
+    const horasNoche = ['19:00', '19:30', '20:00', '20:30', '21:00','21:30', '22:00','22:30' ];
 
     useEffect(() => {
         obtenerSalas();
@@ -40,8 +40,9 @@ function ReservaForm() {
     };
 
     const verificarCapacidad = async () => {
-        if (!selectedSala || !fecha || !hora) return;
-        const url = `${Global.url}/disponibilidad?salaId=${selectedSala}&fecha=${fecha}&hora=${hora}`;
+        if (!selectedSala || !fecha || !tiempo) return;
+        
+        const url = `${Global.url}/disponibilidad?salaId=${selectedSala}&fecha=${fecha}&tiempo=${tiempo}`;
         const response = await fetch(url, {method:'GET'});
         console.log(response)
         if(response.ok){

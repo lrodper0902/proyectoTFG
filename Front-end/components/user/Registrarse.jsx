@@ -45,16 +45,6 @@ const Registrarse = () => {
         throw new Error("Error al conectar con la API");
       }
 
-      // if(data.rol === 'admin'){
-      //   navigate('/app/usuarios');
-      // }
-       alert('Registrado con éxito')
-      // // setNombre('')
-      // // setApellido('')
-      // // setTelefono('')
-      // // setEmail('')
-      // // setPassword('')
-
     } catch (error) {
       console.error("No se ha registrado", error);
     }

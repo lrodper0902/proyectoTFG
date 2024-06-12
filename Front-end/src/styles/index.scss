@@ -105,24 +105,24 @@ body{
     }
 
     //Carousel de la carta
-    .fade-carousel {
-      position: relative;
-      width: 100%;
+        .fade-carousel {
+          position: relative;
+          width: 100%;
 
-      .fade-carousel__image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        @include imagen();
-        opacity: 0;
-        transition: opacity 1s ease-in-out;
-      }
+          .fade-carousel__image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            @include imagen();
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+          }
 
-      .fade-carousel__image--active {
-        opacity: 1;
-        @include imagen();
-      }
-    }
+          .fade-carousel__image--active {
+            opacity: 1;
+            @include imagen();
+          }
+        }
     div {
       height: 100%;
       display: grid;
@@ -187,12 +187,9 @@ body{
   .boton-reservar:hover{
     @include buton_hover();
   }
-
 }
 
- 
- 
-@media (prefers-color-scheme: light) {
+ @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;

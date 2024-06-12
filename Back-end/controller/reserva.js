@@ -10,10 +10,14 @@ class ReservaController {
             res.status(500).send({ message: 'Error al obtener las reservas', error });
         }
     }
+    
 
     static async verificarCapacidad (req, res) {
         console.log("verificar capacidad")
         const { salaId, fecha, tiempo } = req.query;
+        console.log(tiempo)
+        console.log(fecha)
+        console.log(salaId)
         try {
             const conn = await getConnection();
             const [results] = await conn.query(`
