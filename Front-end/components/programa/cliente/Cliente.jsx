@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Global } from '../../helpers/Global';
+import { Global } from '../../../helpers/Global';
 
 const Cliente = () => {
   const [reservas, setReservas] = useState([]);

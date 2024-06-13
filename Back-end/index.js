@@ -2,10 +2,11 @@ const express = require('express');
 const getConnection = require('./database/connect'); 
 const cors = require('cors');
 require('dotenv').config();
+const { insertAdmin } = require('./controller/Admin');
 
 // Crear servidor node
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3900;
 
 // Conexion a la base de datos
 getConnection();
@@ -20,6 +21,8 @@ app.use(cors({
 // Convertir los datos del body a JSON
 app.use(express.json()); // Middleware para parsear JSON
 app.use(express.urlencoded({ extended: true }));
+
+insertAdmin();
 
 // Cargar conf rutas
 const ClienteRoutes = require("./routes/cliente");

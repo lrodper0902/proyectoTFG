@@ -25,4 +25,4 @@ async function insertAdmin() {
     }
 }
 
-module.export= {insertAdmin}
+module.exports = { insertAdmin };
