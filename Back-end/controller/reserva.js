@@ -10,8 +10,25 @@ class ReservaController {
             res.status(500).send({ message: 'Error al obtener las reservas', error });
         }
     }
-    
 
+    static async obtenerReservasPorCliente(req, res) {
+        const cliente_id = req.params.id;
+        const conn = await getConnection();
+        try {
+          const [reservas] = await conn.query(
+            `SELECT r.*, s.nombre AS salaNombre
+             FROM Reserva r
+             JOIN Sala s ON r.sala_id = s.idSala
+             WHERE r.cliente_id = ?`,
+            [cliente_id]
+          );
+          res.status(200).json(reservas);
+        } catch (error) {
+          console.error('Error al obtener las reservas:', error);
+          res.status(500).json({ message: 'Error al obtener las reservas', error });
+        }
+      }
+    
     static async verificarCapacidad (req, res) {
         console.log("verificar capacidad")
         const { salaId, fecha, tiempo } = req.query;

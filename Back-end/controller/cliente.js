@@ -1,4 +1,4 @@
-const Cliente = require('../models/Cliente');
+const Cliente = require('../models/cliente');
 
 const getAllClientes = async (req, res) => {
     try {
@@ -9,19 +9,6 @@ const getAllClientes = async (req, res) => {
     }
 };
 
-// const getClienteByEmail = async (req, res) => {
-//     // Cliente por correo electrónico
-//     try {
-//         const cliente = await Cliente.findByEmail(req.params.email);
-//         if (cliente.length > 0) {
-//             res.json(cliente[0]);
-//         } else {
-//             res.status(404).send({ message: 'Cliente no encontrado' });
-//         }
-//     } catch (error) {
-//         res.status(500).send({ message: 'Error al obtener el cliente', error });
-//     }
-// };
 
 
 const getCliente = async (req, res) => {

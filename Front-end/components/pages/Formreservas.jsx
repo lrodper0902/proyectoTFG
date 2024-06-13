@@ -19,32 +19,30 @@ export const Formreservas = ({ date, comensales, hora, comida, selectedSala }) =
 
     const handlereservaUsuarioLogeado = async(e) => {
     //Ususario con cuenta
-        e.preventDefault();
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-    
-        try {
-            const response = await fetch(`${Global.url}login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({email, password}),
-            });
-            console.log(response)
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data)
-                document.cookie = `auth_token=${data.token}; path=/; max-age=3600; secure; httponly; samesite=strict`;
-                // setIdCliente(data.idCliente);
-                if(data.idCliente){
-                    
-                }
-            } else {
-                alert('Fallo al iniciar sesión, verifica tus credenciales');
-            }
-        } catch (error) {
-            console.error('Error al iniciar sesión:', error);
-        }
-    
+      e.preventDefault();
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+  
+      try {
+          const response = await fetch(`${Global.url}login`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({email, password}),
+          });
+          console.log(response)
+          if (response.ok) {
+              const data = await response.json();
+              console.log(data)
+              document.cookie = `auth_token=${data.token}; path=/; max-age=3600; secure; httponly; samesite=strict`;
+              if(data.idCliente){
+                  
+              }
+          } else {
+              alert('Fallo al iniciar sesión, verifica tus credenciales');
+          }
+      } catch (error) {
+          console.error('Error al iniciar sesión:', error);
+      }
     }
 
     const handleReserva = async (e) => {
@@ -65,7 +63,7 @@ export const Formreservas = ({ date, comensales, hora, comida, selectedSala }) =
   
       // Llamada al endpoint para crear la reserva
       try {
-        const response = await fetch(`${Global.url}/reservas`, {
+        const response = await fetch(`${Global.url}reservas`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(reserva),

@@ -124,7 +124,6 @@ const Crearreserva = () => {
 
     } catch (error) {
       console.error('Error al crear la reserva:', error);
-      // Aquí podrías mostrar un mensaje de error al usuario
     }
   };
   
@@ -196,20 +195,6 @@ const Crearreserva = () => {
                     <option value="12">12 personas</option>
                   </select>
                   <br />
-                  {/* <label htmlFor="">Seleccionar mesa</label>
-                  <br />
-                  <select required name="mesa" id="" value={selectedSala} onChange={handleMesaChange}>
-                    <option >Seleccionar mesa</option>
-                    {mesas.length === 0 ? (
-                      <option value="">Completo</option>
-                    ) : (
-                      mesas.map((mesa, index) => (
-                        <option key={index} value={mesa.idMesa}>
-                          {mesa.numeroMesa}
-                        </option>
-                      ))
-                    )}
-                  </select> */}
                   <label htmlFor="">Seleccione dia</label><br />
                   <input required type="date" name="fecha" id="" /><br /><br /><br /><br />
 

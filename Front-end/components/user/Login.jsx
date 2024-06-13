@@ -32,11 +32,13 @@ const Login = () => {
         const data = await response.json();
         console.log(data)
         document.cookie = `auth_token=${data.token}; path=/; max-age=3600; secure; httponly; samesite=strict`;
+
+        localStorage.setItem('clienteId', data.idCliente);
         
         if(data.rol === 'admin'){
           navigate('/app/usuarios');
         }else{
-          navigate('/usuario')
+          navigate('/app/usuario')
         }
       } else {
         alert('Fallo al iniciar sesión, verifica tus credenciales');

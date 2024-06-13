@@ -1,20 +1,45 @@
 version: '3.8'
 services:
-  web:
-    build: .
+  backend:
+    build: ./Back-end
     ports:
       - "3000:3000"
-    volumes:
-      - .:/usr/src/app
     depends_on:
       - db
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=password
+      - DB_NAME=restaurante_database
+      - PORT=3000
+
+  frontend:
+    build: ./Front-end
+    ports:
+      - "80:80"
+
   db:
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: restaurante_database
       MYSQL_USER: root
-      MYSQL_PASSWORD: ''
+      MYSQL_PASSWORD: password
     ports:
       - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+volumes:
+  db-data:

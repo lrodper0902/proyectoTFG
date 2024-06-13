@@ -1,10 +1,12 @@
 const mysql = require('mysql2/promise');
+require('dotenv').config();
 
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'restaurante_database',
+    host: process.env.DB_HOST || 'db',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'restaurante_database',
+    port: 3306,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -21,6 +23,3 @@ const getConnection = async () => {
 };
 
 module.exports = getConnection;
-
-
-
