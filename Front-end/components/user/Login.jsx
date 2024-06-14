@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { Global } from '../../helpers/Global';
@@ -8,37 +8,38 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const passwordInput = useRef(null);
-  const navigate = useNavigate();  // React Router's hook for programmatic navigation
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = (e) => {
     e.preventDefault();
     const currentType = passwordInput.current.type;
-    passwordInput.current.type = currentType === "password" ? "text" : "password";
+    passwordInput.current.type = currentType === 'password' ? 'text' : 'password';
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
 
     try {
       const response = await fetch(`${Global.url}login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({email, password}),
+        body: JSON.stringify({ email, password }),
       });
-      console.log(response)
+
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
-        document.cookie = `auth_token=${data.token}; path=/; max-age=3600; secure; httponly; samesite=strict`;
+        console.log(data);
 
-        localStorage.setItem('clienteId', data.idCliente);
-        
-        if(data.rol === 'admin'){
-          navigate('/app/usuarios');
-        }else{
-          navigate('/app/usuario')
+        // // Almacenar token y usuario en localStorage
+        // localStorage.setItem('token', data.token);
+        // localStorage.setItem('user', JSON.stringify(data));
+
+        setAuth(data);
+
+        if (data.rol === 'admin') {
+          navigate('/app/reservas');
+        } else {
+          navigate('/app/cliente');
         }
       } else {
         alert('Fallo al iniciar sesión, verifica tus credenciales');
@@ -61,7 +62,7 @@ const Login = () => {
               type="text"
               id="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder='email'
               required
             /><br />
@@ -72,14 +73,14 @@ const Login = () => {
               id="password"
               type="password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder='Contraseña'
               required
             />
             <button className='icon-password' onClick={togglePasswordVisibility}>
               <FontAwesomeIcon icon={faEye} />
             </button><br />
-            <Link className='boton' to="/registrarse">No tengo cuenta. Registrarme</Link> <br />
+            <Link className='boton' to="/registrarse">No tengo cuenta. Registrarme</Link><br />
             <button type="submit">Iniciar sesión</button>
           </form>
         </div>

@@ -75,7 +75,7 @@ const Calendario = () => {
 
     if (view === 'month') {
       const formattedDate = formatDate(date);
-      console.log(formattedDate)
+
 
       const day = date.getDay();
       if (day === 5 || day === 6 || day === 0) {

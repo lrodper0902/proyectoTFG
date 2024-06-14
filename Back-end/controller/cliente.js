@@ -1,4 +1,5 @@
 const Cliente = require('../models/cliente');
+const jwt = require('jsonwebtoken');
 
 const getAllClientes = async (req, res) => {
     try {
@@ -8,8 +9,6 @@ const getAllClientes = async (req, res) => {
         res.status(500).send({ message: 'Error al obtener los clientes', error });
     }
 };
-
-
 
 const getCliente = async (req, res) => {
     //Cliente por id
@@ -69,20 +68,26 @@ const deleteCliente = async (req, res) => {
     }
 };
 
-const login = async(req, res)=>{
+const secretKey = 'your_secret_key';
+
+const login = async (req, res) => {
     console.log("Login")
     try {
-        
         const user = await Cliente.login(req.body);
         console.log(user)
         console.log("Login correcto!!")
+
+        const token = jwt.sign({ id: user.idCliente, rol: user.rol }, secretKey, {
+            expiresIn: 86400, 
+        });
 
         res.json({
             message: 'Inicio de sesión',
             idCliente: user.idCliente,
             email: user.email,
-            rol: user.rol
-        })
+            rol: user.rol,
+            token: token
+        });
     } catch (error) {
         console.error("Error en login: ", error.message);
         if (error.message === 'Contraseña incorrecta') {
@@ -91,8 +96,7 @@ const login = async(req, res)=>{
             res.status(500).json({ message: 'Error interno del servidor' });
         }
     }
-}
-
+};
 //Export acciones
 module.exports = {
     getAllClientes,

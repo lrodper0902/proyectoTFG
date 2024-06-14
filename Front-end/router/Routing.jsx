@@ -14,11 +14,14 @@ import Usuario from '../components/programa/Usuarios';
 import Crearreserva2 from '../components/programa/Crearreserva2';
 import Reservas from '../components/programa/Reservas';
 import Cliente from '../components/programa/cliente/Cliente';
+// import { LogOut } from '../components/user/logout';
+// import { AuthProvider } from '../components/context/AuthProvider';
 
 
 export const Routing = () => {
   return (
     <BrowserRouter>
+      {/* <AuthProvider> */}
       
       <Header />
       <Routes>
@@ -38,6 +41,7 @@ export const Routing = () => {
           <Route path='/app/crear' element={<Crearreserva2 />} />
           
           <Route path='/app/usuaio' element={<Cliente />} />
+          {/* <Route path="logout" element={<LogOut />} /> */}
         
           <Route path='/*' element={
             <>
@@ -50,7 +54,7 @@ export const Routing = () => {
       </Routes>
 
       <Footer />
-
+      {/* </AuthProvider> */}
     </BrowserRouter>
   )
 }

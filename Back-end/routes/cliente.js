@@ -5,7 +5,6 @@ const ClienteController = require("../controller/cliente");
 
 router.get('/todosclientes', ClienteController.getAllClientes);
 router.get('/clienteporid/:id', ClienteController.getCliente);
-// router.get('/clienteporemail/:email', ClienteController.getClienteByEmail);
 router.post('/nuevocliente', ClienteController.createCliente);
 router.put('/actualizarcliente/:id', ClienteController.updateCliente);
 router.delete('/eliminarcliente/:id', ClienteController.deleteCliente);
