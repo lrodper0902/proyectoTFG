@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import { Global } from '../../helpers/Global';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFaceDizzy, faTrash, faAngleLeft, faAngleRight, } from '@fortawesome/free-solid-svg-icons';
+import { faFaceDizzy, faTrash, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 
 const Reservas = () => {
@@ -10,15 +10,30 @@ const Reservas = () => {
     const [tituloFecha, setTituloFecha] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(8);
-1
     const [tiempo, setTiempo] = useState(['Todos','Mediodia', 'Noche']);
+    const [salas, setSalas] = useState([]);
+    const [salaSeleccionada, setSalaSeleccionada] = useState('');
 
     useEffect(() => {
-        const fechaActual = new Date().toISOString().split('T')[0];  
+        const fechaActual = new Date().toISOString().split('T')[0];
         console.log(fechaActual)
         obtenerFechaActual(fechaActual);
         setTituloFecha(fechaActual);
+        obtenerSalas();
     }, []);
+
+    const obtenerSalas = async () => {
+        try {
+            const response = await fetch(Global.url + 'salas');
+            if (!response.ok) {
+                throw new Error('La solicitud falló con estado ' + response.status);
+            }  
+            const data = await response.json();
+            setSalas(data);
+        } catch (error) {
+            console.error('Error al obtener los datos:', error);
+        }
+    };
 
     const obtenerRegistros = async () => {
         try {
@@ -34,6 +49,7 @@ const Reservas = () => {
             console.error("Error al obtener los registros", error);
         }
     };
+
     const obtenerFechaActual = async(fecha) => {
         const fechaFormateada = moment(fecha).format('YYYY-MM-DD');
         const listaRegistros = await obtenerRegistros();
@@ -67,26 +83,25 @@ const Reservas = () => {
         setReservas(lista);
         setTituloFecha('Todas las fechas');
     }
-    
+
     const obtenerNombreCliente = async (cliente_id) => {
         const response = await fetch(`${Global.url}/clienteporid/${cliente_id}`);
         const data = await response.json();
 
         return data[0].nombre;
     };
-    
+
     const obtenerNombreSala = async (sala_id) => {
         const response = await fetch(`${Global.url}/obtenersala/${sala_id}`);
         const data = await response.json();
         return data.nombre;
     };
-    
-    const porFecha = async (fechaBuscada) => {
 
+    const porFecha = async (fechaBuscada) => {
         try {
             const reservas = await obtenerRegistros(); // Asegurarse de que esta promesa se resuelva.
             const fechaFormateada = moment(fechaBuscada).format('YYYY-MM-DD');
-    
+
             const reservasConDatos = await Promise.all(
                 reservas.filter(reserva => moment(reserva.fecha).format('YYYY-MM-DD') === fechaFormateada)
                 .map(async reserva => ({
@@ -101,7 +116,7 @@ const Reservas = () => {
             console.error("Error al procesar las reservas por fecha", error);
         }
     };
-    
+
     const mostrarRegistrosPorTiempo = async (tipoTiempo, fecha) => {
         try {
             const url = `${Global.url}/listareservas`;
@@ -111,16 +126,14 @@ const Reservas = () => {
             }
             const datos = await response.json();
             console.log(fecha)
-            
+
             let reservasFiltradas;
             if (tipoTiempo === "Todos") {
                 reservasFiltradas = datos.filter(reserva => moment(reserva.fecha).isSame(fecha, 'day'));
             } else {
                 reservasFiltradas = datos.filter(reserva => reserva.tiempo === tipoTiempo && moment(reserva.fecha).isSame(fecha, 'day'));
             }
-            
-            // const reservasConNombres = await Promise.all(reservasFiltradas.map(reserva => agregarNombreAReserva(reserva)));
-            setTituloFecha(fecha);
+
             const lista = await Promise.all(
                 reservasFiltradas.map(async reserva => ({
                     ...reserva,
@@ -129,9 +142,32 @@ const Reservas = () => {
                 }))
             );            
             setReservas(lista);
+            setTituloFecha(fecha);
 
         } catch (error) {
             console.error("Error al filtrar los registros por tiempo", error.message);
+        }
+    }
+
+    const filtrarPorSala = async (salaId) => {
+        try {
+            const listaRegistros = await obtenerRegistros();
+            let listaFiltrada = listaRegistros;
+            if (salaId !== 'todas') {
+                listaFiltrada = listaRegistros.filter(reserva => reserva.sala_id == salaId);
+            }
+
+            const lista = await Promise.all(
+                listaFiltrada.map(async reserva => ({
+                    ...reserva,
+                    nombreCliente: await obtenerNombreCliente(reserva.cliente_id),
+                    nombreSala: await obtenerNombreSala(reserva.sala_id)
+                }))
+            );
+            setReservas(lista);
+            setSalaSeleccionada(salaId);
+        } catch (error) {
+            console.error("Error al filtrar las reservas por sala", error.message);
         }
     }
 
@@ -171,7 +207,7 @@ const Reservas = () => {
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
     };
-  
+
     const devolverHora = (formatoHora) => {
         const partes = formatoHora.split(':');
         return partes[0] + ':' + partes[1];
@@ -205,11 +241,17 @@ const Reservas = () => {
                             <form className='comida-cena'>
                                 <label htmlFor="comida-cena">Seleccionar:&nbsp;</label> 
                                 <select name="comida-cena" id="comida-cena" onChange={(e) => mostrarRegistrosPorTiempo(e.target.value, tituloFecha)}>
-                                    {/* <option value="todos">Todos</option>
-                                    <option value="Mediodia">Comida</option>
-                                    <option value="Noche">Cena</option> */}
                                     {tiempo.map(t => (
-                                        <option value={t}>{t}</option>
+                                        <option value={t} key={t}>{t}</option>
+                                    ))}
+                                </select>
+                            </form>
+                            <form className='filtro-sala'>
+                                <label htmlFor="filtro-sala">Filtrar por Sala:&nbsp;</label>
+                                <select name="filtro-sala" id="filtro-sala" onChange={(e) => filtrarPorSala(e.target.value)}>
+                                    <option value="todas">Todas las salas</option>
+                                    {salas.map(sala => (
+                                        <option key={sala.idSala} value={sala.idSala}>{sala.nombre}</option>
                                     ))}
                                 </select>
                             </form>
@@ -247,7 +289,7 @@ const Reservas = () => {
                                     </thead>
                                     <tbody>
                                         {currentItems.map(reserva => (
-                                            <tr key={reserva.cliente_id}>
+                                            <tr key={reserva.idReserva}>
                                                 <td>{reserva.nombreCliente}</td>
                                                 <td>{devolverFecha(reserva.fecha)}</td>
                                                 <td>{devolverHora(reserva.hora)}h</td>
@@ -268,7 +310,7 @@ const Reservas = () => {
                                   <table className="movil-consultas">
                                       <tbody>
                                           {reservas.map(reserva => (
-                                              <tr key={reserva.cliente_id}>
+                                              <tr key={reserva.idReserva}>
                                                   <td><strong>{reserva.nombreCliente}</strong></td>
                                                   <td>{devolverFecha(reserva.fecha)}</td>
                                                   <td>{devolverHora(reserva.hora)}h</td>
