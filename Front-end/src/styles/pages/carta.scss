@@ -1,28 +1,62 @@
 .contain-carta{
-    @include flex-grid(flex);
-    background-color: #292C30;
+    // @include flex-grid(flex);
+    padding-top: 100px;
+    padding-bottom: 100px;
+    font-family: "Handlee";
+    background-attachment: fixed;
+    @include background-image('/salas/fondo.png', auto);
+    // .carta-img-7monjas{
+      
+    // }
+
+    .title{
+      text-align: center;
+      font-size: 50px;
+    }
+
+    p{
+      margin-bottom: 0px;
+      font-size: 20px;
+    }
+
+    hr{
+      width: 80%;
+      justify-self: center;
+      border: 0.3px rgb(0, 0, 0) solid;
+      margin: 0 auto;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      opacity:1;
+    }
+    h2{
+      margin-top: 40px;
+      font-size: 40px;
+    }
 
     .carta{
-      
+      z-index: 999;
+      margin:0 auto;
+      margin-top: 50px;
+      margin-bottom: 50px;
       text-align: center;
-      background: $WHITE;
-      width: 70%;
-      .title{
-        font-size: 45px;
+      width: 60%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: 1fr;
+
+      .entrantes{
+        grid-row: 1/2;
+        grid-column: 1/2;
       }
-      p{
-        margin-bottom: 0px;
+
+      .imagenes-platos{
+        display: flex;
+        justify-content: center;
       }
-      hr{
-        width: 80%;
-        justify-self: center;
-        border: 0.3px rgb(0, 0, 0) solid;
-        margin: 0 auto;
-        margin-top: 20px;
-        margin-bottom: 10px;
-      }
-      h2{
-        margin-top: 10px;
+
+      .carne{
+        grid-column: 2/3;
+        grid-row: 1/2;
       }
     }
   }

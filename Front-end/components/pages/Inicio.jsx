@@ -6,19 +6,20 @@ export const Inicio = () => {
 
   //Carrusel de la carta
   const images = [
-    '/productos/quisquilla.jpeg', 
-    '/productos/boquerones.jpg',
-    '/productos/atun.jpg',
-    '/productos/cigalas.jpeg',
-    '/productos/lomo.jpg',
+    '/salas/fachada.jpg',   
+    '/salas/comedor1.jpg',     
+    '/salas/mesasaltas3.jpg',
+    '/salas/comedor2.0.jpg', 
+    '/salas/cterraza.jpeg',
   ];
 
   const images2 = [
+
     '/platos/croquetas.jpg', 
     '/platos/perdiz.jpg',
-    '/platos/jamon.jpg',
-    '/platos/calamarfrito.jpg',
-    '/platos/queso.jpg',
+    '/platos/plato5.jpg',
+    '/platos/plato3.jpeg',
+    '/platos/plato1.jpg',
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -37,22 +38,32 @@ export const Inicio = () => {
 
   return (
     <>
-      <MyCarousel />
-      <div className="introduction">
-        <h3>Come con Nosotros, come en 7 Monjas</h3>
-        <hr />
-        <p>Restaurante 7 Monjas te ofrece un lugar donde sentirte especial. El confort, un servicio esmerado y una gastronomía de primer nivel, convierten al Restaurante 7 Monjas en una cita ineludible de la restauración Granadina.</p>
-        <p>La sobriedad y el soporte de una materia prima de primera calidad, con unos toques de vanguardia, es la base de la estrategia comercial del Restaurante 7 Monjas.</p>
-        <p>Ubicado en una ciudad  de interior, se distingue, sin embargo, por la calidad en el pescado y marisco así como en la ejecución y trato de los mismos. Una larga trayectoria profesional ligada al complejo mundo del pescado y más de 50 años en la hostelería se plasman en la mesa del 7Monjas .</p>
-        <p>Completan nuestra oferta las inigualables carnes de la zona así como productos de otra índole que podrán encontrar en nuestra carta y menús degustación.</p>
+      {/* <MyCarousel /> */}
+      <div className='imagen-inicio'>
+        {/* <img src="/7monjas/inicio.jpeg" width='100%' alt="" /> */}
+        <div className='introduccion-7monjas'>
+          <div>
+            <h2>Come con nosotros, come con Restaurante 7 Monjas</h2>
+            <hr />
+            <p>Restaurante 7 Monjas te ofrece un lugar donde sentirte especial. El confort, un servicio esmerado y una gastronomía de primer nivel, convierten al Restaurante 7 Monjas en una cita ineludible de la restauración Granadina.</p>
+            <p>La sobriedad y el soporte de una materia prima de primera calidad, con unos toques de vanguardia, es la base de la estrategia comercial del Restaurante 7 Monjas.</p>
+          </div>
+          <Link to="/carta" className="link-button">Ver la Carta</Link>
+        </div>
       </div>
 
       <div className="content-indice">
-      <div className='text carta-text'>
-          <h3 className='title'>Carta</h3>
+        <div className='text carta-text'>
+          <h3 className='title'>Una experiencia inovidable</h3>
           <hr />
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit fuga laudantium minus veritatis deserunt nihil repudiandae voluptatem enim mollitia non atque iure sequi nisi, libero voluptate illo ab facilis. Sed incidunt, numquam accusantium provident tenetur esse mollitia, at minus tempora impedit rerum aut nam eligendi reprehenderit id quos eum recusandae, deserunt hic tempore rem. Deserunt, numquam. Magnam beatae modi accusamus repellat dolores architecto non placeat, ullam autem? Dolorum consectetur perspiciatis, placeat dignissimos modi error minus? Nesciunt iusto assumenda rem asperiores consectetur esse unde architecto ducimus! Vel expedita excepturi odio accusamus!</p>
-          <Link to="/carta" className="link-button">Ver la Carta</Link>
+          <p>Restaurante a la carta, basada en una cocina mediterránea y de escuela andaluza con toques de vanguardia.
+          Podrás elegir entre platos con verduras, entrantes fríos, escabeches, salazones, marisco, pescados, arroces, calderetas y carnes; así como nuestros deliciosos postres caseros.</p>
+          <p> Las mejores raciones de Granada: Pescado en adobo, anchoas del Cantábrico, Jamones Ibéricos, patés, croquetas caseras, marisco cocido o a la plancha, carnes para compartir y elaborados postres caseros.</p>
+          <p>Tipo de cocina: Mediterránea – Andaluza</p>
+          <p>Destaca: Posibilidad de elegir menú degustación (con antelación) o menú de temporada.</p>
+          <p>Horario: Almuerzo y Cena</p>
+          <p>Precio Medio: 35€</p>
+          <p>Nota de Interés: Fundado en 2017, el restaurante 7 monjas, se sitúa desde el primer día a la vanguardia de la gastronomía  granadina y se convierte en referencia de personas de paso,  así como de su amplia clientela de Andalucía Oriental.</p>
         </div>
 
         <div className="fade-carousel img1">
@@ -66,6 +77,8 @@ export const Inicio = () => {
             />
           ))}
         </div>
+
+
 
         <div className="fade-carousel img2">
           {images.map((image, index) => (
@@ -96,9 +109,6 @@ export const Inicio = () => {
         </div>
       </div>
 
-      {/* <div className='imagen-footer'>
-        <img src="/7monjas/footer.jpg" width='100%' alt="" />
-      </div> */}
     </>
   );
 };

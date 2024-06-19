@@ -196,3 +196,13 @@
     text-transform: uppercase;
 }
 
+@mixin fondo-vinos($url, $heigth){
+    display: flex;
+    min-width: 350px;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 40px;
+    flex: 1 33%;
+    @include background-image($url, $heigth);
+}

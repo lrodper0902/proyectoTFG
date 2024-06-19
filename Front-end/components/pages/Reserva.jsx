@@ -17,8 +17,15 @@ export const Reserva = () => {
         </div>
 
         <div className='descripcion-reservas'>
-          <p>Las reservas mediante la página web, se deben hacer con 48 horas de antelación y se darán por materializadas cuando reciban la confirmación de la misma por parte de la atención al cliente del 7 Monjas.</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis cum numquam quam aperiam sed voluptates, nesciunt nam atque soluta cumque repellat aspernatur architecto in impedit nisi expedita illum quod eveniet velit suscipit, officiis ad, at sunt. Placeat quibusdam repellat obcaecati delectus iusto autem earum nostrum fugiat ipsum tempora est suscipit veniam quisquam iste modi, porro, laboriosam veritatis! Ea ipsa ex maxime quis impedit, omnis et exercitationem reprehenderit laboriosam in quibusdam quidem hic autem aliquid veniam itaque nihil cum. Autem exercitationem animi ad eius. Excepturi quis laudantium ad ea nisi, fugiat tempore neque iusto assumenda amet possimus non illum quia, eligendi eaque voluptate quae quo tempora facere. Architecto et eligendi deleniti. A, itaque quibusdam voluptatum maxime iusto sed quaerat quos quam consequuntur veniam aperiam esse commodi unde illo! Quis unde debitis, minus sequi perferendis saepe itaque sed deleniti labore, hic iste iure magni quidem rerum et. Ad, voluptatum iure. Quibusdam, non.</p>
+          <p>&emsp;&emsp;Las reservas mediante la página web, se deben hacer con 48 horas de antelación y se darán por materializadas cuando reciban la confirmación de la misma por parte de la atención al cliente del 7 Monjas.</p>
+          <p>Nuestras puertas están abiertas para recibirte desde las 13:00 hasta las 18:00 horas, y nuevamente desde las 20:00 hasta las 00:30 horas.</p>
+          
+          <ul>
+            <li><p>Explora nuestros deliciosos platos y elige la fecha y hora que más te convengan para tu visita.</p></li>
+            <li><p><b>Reservas sin Pago Anticipado:</b> Si ya estás registrado, disfruta de la comodidad de reservar sin necesidad de realizar pagos adicionales. Simplemente inicia sesión y reserva fácilmente.</p></li>
+            <li><p><b>Protegemos tus datos personales y financieros con medidas estrictas de seguridad.</b> Puedes reservar con confianza sabiendo que tus transacciones están seguras.</p></li>
+          </ul>
+          
           <img  src="catering/reservar.jpg" width='60%' alt="" />
         </div>
 

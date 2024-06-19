@@ -1,0 +1,44 @@
+.imagen-principal-vinos{
+    @include background-image('/7monjas/vino2.jpg', 1200px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h3{
+        font-size: 50px;
+        color: white;
+        text-transform: uppercase;
+    }
+}
+
+main{
+    .seccion-vinos{
+    display: flex;
+    margin: 100px 0px;
+    flex-flow: wrap row;
+    justify-content: center;
+    align-items: start;
+        article{
+            text-align: center;
+            margin: 0px 80px;
+            img{
+                margin-bottom: 15px;
+                width: 250px;
+            }        
+        }
+    }
+    .descripcion-vinos{
+        width: 100%;
+        display: flex;
+        flex-flow: wrap row;
+        
+        .descripcio-rioja{
+            @include fondo-vinos('/7monjas/fondo1.png', 450px)
+        }        
+        .descripcio-ribera{
+            @include fondo-vinos('/7monjas/fondo2.jpg', 450px)
+        }            
+        .descripcio-blanco{
+            @include fondo-vinos('/7monjas/fondo3.png', 450px)
+        }        
+    }
+}

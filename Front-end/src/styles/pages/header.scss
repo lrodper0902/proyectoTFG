@@ -1,5 +1,5 @@
 .menu{
-    background: #000000c8 !important;
+    background: rgba(#000000, 0.4) !important;
     .nav-menu{
       color: $WHITE !important;
 
@@ -44,7 +44,6 @@
     .menu-option:hover{
       color: $ROJO;
       font-weight: 600;
-
     }
 
     .menu-option:hover::after {

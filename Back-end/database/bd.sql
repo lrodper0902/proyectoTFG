@@ -89,7 +89,7 @@ INSERT INTO Cliente (idCliente, nombre, apellido, telefono, email, rol, password
 (11, 'Elena', 'Ramirez', '999999999', 'elena@example.com', 'cliente', 'password123', 0, 0, '2024-06-13', '15:37:19'),
 (12, 'Javier', 'Torres', '000000000', 'javier@example.com', 'cliente', 'password123', 1, 0, '2024-06-13', '15:37:19'),
 (13, 'Sara', 'Diaz', '112233445', 'sara@example.com', 'cliente', 'password123', 0, 0, '2024-06-13', '15:37:19'),
-(14, 'Quique', 'Martinez', NULL, 'quiquerestaurante@gmail.com', 'admin', '$2a$10$oS0W5tCkNvspm7663BCKFeO6I0XU75B0EHS6ZM0g7MsozSp3bAAf.', 0, 0, NULL, NULL),
+-- (14, 'Quique', 'Martinez', NULL, 'quiquerestaurante@gmail.com', 'admin', '$2a$10$oS0W5tCkNvspm7663BCKFeO6I0XU75B0EHS6ZM0g7MsozSp3bAAf.', 0, 0, NULL, NULL),
 (15, 'laura', 'rodriguezz', '667454545', 'laura.rodriguezperales@gmail.com', 'cliente', 'password', 1, 0, NULL, NULL),
 (17, 'laura', 'rodriguezz', '667454545', 'laura.rodriguezperales98@gmail.com', 'cliente', 'password', 1, 0, NULL, NULL),
 (19, 'julia', 'rodriguezz', '667454545', 'julia@gmail.com', 'cliente', 'password', 1, 0, NULL, NULL),

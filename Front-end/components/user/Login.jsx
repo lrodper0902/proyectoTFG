@@ -30,12 +30,6 @@ const Login = () => {
         const data = await response.json();
         console.log(data);
 
-        // // Almacenar token y usuario en localStorage
-        // localStorage.setItem('token', data.token);
-        // localStorage.setItem('user', JSON.stringify(data));
-
-        setAuth(data);
-
         if (data.rol === 'admin') {
           navigate('/app/reservas');
         } else {
