@@ -2,9 +2,9 @@ const mysql = require('mysql2/promise');
 require('dotenv').config();
 
 const pool = mysql.createPool({
-    host: 'localhost',
+    host: 'db',
     user: 'root',
-    passwor: '',
+    passwor: 'password',
     database:  'restaurante_database',
     port: 3306,
     waitForConnections: true,
