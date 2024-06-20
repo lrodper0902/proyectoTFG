@@ -6,7 +6,7 @@ const { insertAdmin } = require('./controller/Admin');
 
 // Crear servidor node
 const app = express();
-const PORT = 3900;
+const PORT = 3000;
 
 // Conexion a la base de datos
 getConnection();
