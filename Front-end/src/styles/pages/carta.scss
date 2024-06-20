@@ -1,13 +1,10 @@
 .contain-carta{
-    // @include flex-grid(flex);
     padding-top: 100px;
     padding-bottom: 100px;
     font-family: "Handlee";
     background-attachment: fixed;
     @include background-image('/salas/fondo.png', auto);
-    // .carta-img-7monjas{
-      
-    // }
+
 
     .title{
       text-align: center;
@@ -17,6 +14,10 @@
     p{
       margin-bottom: 0px;
       font-size: 20px;
+      animation: fadeInUp 1s ease-out;
+      @include tamaño-medio(){
+        font-size: 16px;
+      }
     }
 
     hr{
@@ -27,10 +28,12 @@
       margin-top: 20px;
       margin-bottom: 10px;
       opacity:1;
+      animation: fadeInUp 1s ease-out;
     }
     h2{
       margin-top: 40px;
       font-size: 40px;
+      animation: fadeInUp 1s ease-out;
     }
 
     .carta{
@@ -43,6 +46,22 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: 1fr;
+      animation: fadeInUp 1s ease-out;
+
+      @include tamaño-medio(){
+        grid-template-columns: 1fr !important;
+        grid-template-rows: 1fr 1fr;
+        
+        .entrantes{
+          grid-column: 1/3 !important;
+          grid-row: 1/2 !important;
+        }
+        
+        .carne{
+          grid-column: 1/3 !important;
+          grid-row: 2/3 !important;
+        }
+      }
 
       .entrantes{
         grid-row: 1/2;

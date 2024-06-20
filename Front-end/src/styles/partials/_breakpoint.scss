@@ -41,7 +41,7 @@
 }
 
 @mixin tamaño-pequeño{
-    @media screen and (max-width:670px){ //Inde usarlo tambien
+    @media screen and (max-width:670px){
         @content;
     }
 }
@@ -54,6 +54,11 @@
 
 @mixin movil{
     @media screen and (max-width:450px){
+        @content;
+    }
+}
+@mixin movil-pequeño{
+    @media screen and (max-width:410px){
         @content;
     }
 }

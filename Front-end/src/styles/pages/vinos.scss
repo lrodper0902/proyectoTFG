@@ -7,11 +7,13 @@
         font-size: 50px;
         color: white;
         text-transform: uppercase;
+        animation: fadeInUp 1s ease-out;
     }
 }
 
 main{
     .seccion-vinos{
+        animation: fadeInUp 1s ease-out;
     display: flex;
     margin: 100px 0px;
     flex-flow: wrap row;
@@ -27,12 +29,14 @@ main{
         }
     }
     .descripcion-vinos{
+        animation: fadeInUp 1s ease-out;
         width: 100%;
         display: flex;
         flex-flow: wrap row;
         
         .descripcio-rioja{
-            @include fondo-vinos('/7monjas/fondo1.png', 450px)
+            @include fondo-vinos('/7monjas/fondo1.png', 450px);
+
         }        
         .descripcio-ribera{
             @include fondo-vinos('/7monjas/fondo2.jpg', 450px)

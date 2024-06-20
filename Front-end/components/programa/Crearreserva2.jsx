@@ -40,20 +40,20 @@ function ReservaForm() {
     };
 
     const verificarCapacidad = async () => {
-        if (!selectedSala || !fecha || !tiempo) return;
-        
-        const url = `${Global.url}/disponibilidad?salaId=${selectedSala}&fecha=${fecha}&tiempo=${tiempo}`;
-        const response = await fetch(url, {method:'GET'});
-        console.log(response)
-        if(response.ok){
-            const data = await response.json();
-            console.log(data)
-            setCapacidadDisponible(data.capacidad_disponible);
-            
-          } else {
-            console.error("Error al verificar la disponibilidad");
-            setCapacidadDisponible(null);
-        }
+      if (!selectedSala || !fecha || !tiempo) return;
+      
+      const url = `${Global.url}/disponibilidad?salaId=${selectedSala}&fecha=${fecha}&tiempo=${tiempo}`;
+      const response = await fetch(url, {method:'GET'});
+      console.log(response)
+      if(response.ok){
+          const data = await response.json();
+          console.log(data)
+          setCapacidadDisponible(data.capacidad_disponible);
+          
+        } else {
+          console.error("Error al verificar la disponibilidad");
+          setCapacidadDisponible(null);
+      }
     };
 
     const handleSubmit = async (event) => {

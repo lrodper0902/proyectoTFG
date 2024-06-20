@@ -10,7 +10,7 @@ const Usuarios = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedCliente, setSelectedCliente] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(8);
+  const [itemsPerPage] = useState(6);
   const [isBanned, setIsBanned] = useState(false);
 
   useEffect(() => {

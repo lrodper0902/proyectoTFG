@@ -9,7 +9,6 @@ import { Header } from '../components/layout/Header';
 import { Footer } from '../components/layout/Footer';
 import Registrarse from '../components/user/Registrarse';
 import Login from '../components/user/Login';
-import Indexapp from '../components/programa/Indexapp';
 import Usuario from '../components/programa/Usuarios';
 import Crearreserva2 from '../components/programa/Crearreserva2';
 import Reservas from '../components/programa/Reservas';
@@ -31,7 +30,6 @@ export const Routing = () => {
           <Route path='/iniciarsesion' element={<Login />} />
           <Route path='/registrarse' element={<Registrarse />} />
  
-          <Route path='/app/index' element={<Indexapp />} />
           <Route path='/app/reservas' element={<Reservas />} />
           <Route path='/app/usuarios' element={<Usuario />} />
           <Route path='/app/crear' element={<Crearreserva2 />} />

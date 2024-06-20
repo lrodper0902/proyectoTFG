@@ -9,7 +9,7 @@ const Reservas = () => {
     const [reservas, setReservas] = useState([]);
     const [tituloFecha, setTituloFecha] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(8);
+    const [itemsPerPage] = useState(5);
     const [tiempo, setTiempo] = useState(['Todos','Mediodia', 'Noche']);
     const [salas, setSalas] = useState([]);
     const [salaSeleccionada, setSalaSeleccionada] = useState('');

@@ -15,47 +15,7 @@ const Calendario = () => {
   const [showFormReservas, setShowFormReservas] = useState(false);
   const [selectedSala, setSelectedSala] = useState('');
   const [salas, setSalas] = useState([]);
-  const [salasDisponibles, setSalasDisponibles] = useState([]);
 
-  const [completo, setCompleto] = useState();
-
-  // useEffect(() => {
-  //   verificarCapacidad();
-  // })
-
-  // useEffect(() => {
-  //   verificarDisponibilidad(2, date, comida);
-  // }, [date, comida]);
-
-  // const verificarCapacidad = async () => {
-  //   if (!selectedSala || !fecha || !tiempo) return;
-  //   const url = `${Global.url}/disponibilidad?salaId=${selectedSala}&fecha=${fecha}&tiempo=${comida}`;
-  //   const response = await fetch(url, {method:'GET'});
-  //   console.log(response)
-  //   if(response.ok){
-  //       const data = await response.json();
-  //       console.log(data)
-  //       setCapacidadDisponible(data.capacidad_disponible);
-        
-  //     } else {
-  //       console.error("Error al verificar la disponibilidad");
-  //       setCapacidadDisponible(null);
-  //   }
-  // };
-
-  // const verificarDisponibilidad = async (fecha, comida) => {
-  //   const formattedDate = formatDate(fecha);
-  //   const url = `${Global.url}disponibilidad?salaId=${selectedSala}&fecha=${formattedDate}&tipoComida=${comida}`;
-  //   const response = await fetch(url);
-  //   if (response.ok) {
-  //     const { disponibles } = await response.json();
-  //     const salasFiltradas = salas.filter(sala => disponibles.includes(sala.idSala));
-  //     setSalasDisponibles(salasFiltradas);
-  //     if (!salasFiltradas.find(s => s.idSala === selectedSala)) {
-  //       setSelectedSala('');
-  //     }
-  //   }
-  // };
 
   const formatDate = (date) => {
     const d = new Date(date);

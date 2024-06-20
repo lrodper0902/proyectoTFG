@@ -13,7 +13,7 @@ export const Reserva = () => {
       <div className='contain-calendario-informacion'>
         <div className='titulo'>
         <h3 className='title'>Reserve su mesa</h3>
-         <hr />          
+      
         </div>
 
         <div className='descripcion-reservas'>

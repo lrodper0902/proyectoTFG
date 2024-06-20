@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import MyCarousel from '../elementos/MyCarousel';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+// import './Inicio.css';
 
 export const Inicio = () => {
 
-  //Carrusel de la carta
   const images = [
     '/salas/fachada.jpg',   
     '/salas/comedor1.jpg',     
@@ -14,7 +13,6 @@ export const Inicio = () => {
   ];
 
   const images2 = [
-
     '/platos/croquetas.jpg', 
     '/platos/perdiz.jpg',
     '/platos/plato5.jpg',
@@ -28,19 +26,16 @@ export const Inicio = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
-  }
+  };
 
   useEffect(() => {
     const intervalId = setInterval(nextImage, 3500);
     return () => clearInterval(intervalId);
-  }, []); 
-
+  }, []);
 
   return (
     <>
-      {/* <MyCarousel /> */}
-      <div className='imagen-inicio'>
-        {/* <img src="/7monjas/inicio.jpeg" width='100%' alt="" /> */}
+      <div className='imagen-inicio animate'>
         <div className='introduccion-7monjas'>
           <div>
             <h2>Come con nosotros, come con Restaurante 7 Monjas</h2>
@@ -52,9 +47,9 @@ export const Inicio = () => {
         </div>
       </div>
 
-      <div className="content-indice">
+      <div className="content-indice animate">
         <div className='text carta-text'>
-          <h3 className='title'>Una experiencia inovidable</h3>
+          <h3 className='title'>Una experiencia inolvidable</h3>
           <hr />
           <p>Restaurante a la carta, basada en una cocina mediterránea y de escuela andaluza con toques de vanguardia.
           Podrás elegir entre platos con verduras, entrantes fríos, escabeches, salazones, marisco, pescados, arroces, calderetas y carnes; así como nuestros deliciosos postres caseros.</p>
@@ -63,10 +58,10 @@ export const Inicio = () => {
           <p>Destaca: Posibilidad de elegir menú degustación (con antelación) o menú de temporada.</p>
           <p>Horario: Almuerzo y Cena</p>
           <p>Precio Medio: 35€</p>
-          <p>Nota de Interés: Fundado en 2017, el restaurante 7 monjas, se sitúa desde el primer día a la vanguardia de la gastronomía  granadina y se convierte en referencia de personas de paso,  así como de su amplia clientela de Andalucía Oriental.</p>
+          <p>Nota de Interés: Fundado en 2017, el restaurante 7 monjas, se sitúa desde el primer día a la vanguardia de la gastronomía granadina y se convierte en referencia de personas de paso, así como de su amplia clientela de Andalucía Oriental.</p>
         </div>
 
-        <div className="fade-carousel img1">
+        <div className="fade-carousel img1 animate">
           {images2.map((image, index) => (
             <div
               key={index}
@@ -78,9 +73,7 @@ export const Inicio = () => {
           ))}
         </div>
 
-
-
-        <div className="fade-carousel img2">
+        <div className="fade-carousel img2 animate">
           {images.map((image, index) => (
             <div
               key={index}
@@ -92,26 +85,22 @@ export const Inicio = () => {
           ))}
         </div>
      
-        <div className='text productos-text'>
+        <div className='text productos-text animate'>
           <h3>Expresión y elegancia en 7 Monjas</h3>
           <hr />
           <p>Seleccionamos en origen los productos y materias primas con los que se elaborarán los platos de nuestra carta:</p>
           <p>Una certera lista de productos excelsos, tratados con maestría, en la que podrás encontrar lo mejor de la cocina mediterránea.</p>
           <p>Vinos de primera calidad de las mejores Denominaciones de Origen y un servicio esmerado redondean nuestra propuesta gastronómica. Distinguirán la exigencia y prurito profesional en el restaurante 7 Monjas.</p>
         </div>
-
-
       </div> 
-      <div className='reservar-boton-inicio'>
+      <div className='reservar-boton-inicio animate'>
         <div>
           <h2>Reserva con nosotros</h2>
           <Link to='/reservas' className='boton-reservar'>Reservar</Link>          
         </div>
       </div>
-
     </>
   );
 };
-
 
 export default Inicio;

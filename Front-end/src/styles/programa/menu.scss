@@ -32,7 +32,7 @@
         .buscar-usuarios{
             display: flex;
             justify-content: space-around;
-            padding: 50px 60px;
+            padding: 50px 40px;
             margin:0px 150px;
 
             .paginacion{
@@ -54,8 +54,8 @@
             .button{
                 @include boton-programa();
             }
-            @include tamaño-medio{
-                padding: 30px 0px;
+            @include tamaño-tablet{
+                padding: 10px 0px;
                 margin: 0px 30px;
                 // margin: 0 auto;
                 input{
@@ -80,6 +80,7 @@
 .contain-reservas-app{
     background: rgb(51, 51, 51);
     margin-top: $margin-contain;
+    height: 100vh;
 
     .content{
         background: rgb(255, 246, 229);

@@ -30,9 +30,6 @@
 }
 
 body{
-  .carousel-item{
-    margin-top: 91px;
-  }
   background: $background;
   font-family: "Quicksand", sans-serif;  
 
@@ -40,14 +37,24 @@ body{
     @include background-image('/7monjas/inicio.jpeg', 1100px);
     @include flex-grid(grid);
     color: white;
+
       div{
         width: 80%;
         margin: 0 auto;
         text-align: center;
         font-size: 21px;
+        animation: fadeInUp 1s ease-out;
+
+        @include movil{
+          font-size: 16px;
+        }
+
         h2{
           font-size: 50px;
           text-transform: uppercase;
+          @include movil{
+            font-size: 30px;
+          }
         }
         hr{
           opacity: 1;
@@ -80,6 +87,7 @@ body{
     height: 100%;
     margin: 0 auto;
     padding: 100px;
+    animation: fadeInUp 1s ease-out;
 
     h3{
       text-transform: uppercase
@@ -96,8 +104,10 @@ body{
 
   //Index
   .content-indice{
+    animation: fadeInUp 1s ease-out;
     margin: 150px 200px;
     margin-bottom: 150px !important;
+
     @include grid-colum-row(2, 1fr, 2, 530px, 0px);
 
     @include tamaño-grande{
@@ -114,7 +124,6 @@ body{
     .imagenes-comida{
       background: red;
       height: 20px;
-      // width: 100%;
       gap: 10px;
       @include flex-grid(flex);
       flex-flow:wrap row;
@@ -154,24 +163,26 @@ body{
     }
 
     //Carousel de la carta
-        .fade-carousel {
-          position: relative;
-          width: 100%;
+    .fade-carousel {
+      position: relative;
+      width: 100%;
+      animation: fadeInUp 1s ease-out;
 
-          .fade-carousel__image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            @include imagen();
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-          }
+      .fade-carousel__image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        @include imagen();
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+      }
 
-          .fade-carousel__image--active {
-            opacity: 1;
-            @include imagen();
-          }
-        }
+      .fade-carousel__image--active {
+        opacity: 1;
+        @include imagen();
+      }
+    }
+
     div {
       height: 100%;
       display: grid;
@@ -191,6 +202,13 @@ body{
       justify-content: center;
       align-items: center;
       padding: 35px;
+
+      @include tamaño-pequeño(){
+        flex-flow: wrap row;
+        h3{
+          margin-bottom: 30px;
+        }
+      }
 
       h3{
         text-transform: uppercase
@@ -217,12 +235,14 @@ body{
     margin-top: 0px !important;
   }
   h2{
+    animation: fadeInUp 1s ease-out;
     margin-bottom: 20px;
     font-size: 54px;
     font-family:'Times New Roman', Times, serif;
     letter-spacing: 2px
   }
   .boton-reservar{
+    animation: fadeInUp 1s ease-out;
     @include boton-grande;
     text-decoration: none;
   }
@@ -241,5 +261,16 @@ body{
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+      opacity: 0;
+      transform: translateY(50px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
   }
 }

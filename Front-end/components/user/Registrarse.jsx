@@ -42,6 +42,7 @@ const Registrarse = () => {
       
       console.log(response)
       if(!response.ok){
+        alert("Cliente ya registrado")
         throw new Error("Error al conectar con la API");
       }
 

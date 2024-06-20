@@ -10,6 +10,7 @@ const transporter = nodemailer.createTransport({
 
 exports.sendEmail = (req, res) => {
     console.log("Ha entrado a la base de datos")
+    //Desectructura los campose del body
     const { name, email, phone, message } = req.body;
     console.log(name + email + phone + message )
   const mailOptions = {
